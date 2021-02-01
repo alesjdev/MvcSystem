@@ -10,5 +10,6 @@ public interface IDaoCategory {
     
     public boolean insert(Category cat);
     
+    public Category findById(long id);
     
 }

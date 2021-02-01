@@ -85,7 +85,7 @@
                                 </tbody>
                             </table>
                                 <a href="CategoryController?action=new" method="GET" class="btn btn-primary">
-                                    Create category <span class="glyphicon glyphicon-plus"></span>
+                                    <span class="glyphicon glyphicon-plus"></span>
                                 </a>
                         </div>
                     </div>

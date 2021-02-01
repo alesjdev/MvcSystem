@@ -57,13 +57,14 @@ public class CategoryController extends HttpServlet {
             
             switch(action){
                 case "new":
-                    request.getRequestDispatcher("/WEB-INF/categories/form.jsp")
-                            .forward(request, response);
+                    newCategory(request, response);
                     break;
                 case "update":
-                    break; //TODO
+                    updateCategory(request, response);
+                    break;
                 case "delete":
-                    break; //TODO
+                    deleteCategory(request, response);
+                    break;
             }
             
         } else {           
@@ -97,35 +98,78 @@ public class CategoryController extends HttpServlet {
             
             switch(action){
                 
-                case "new":
-                    
-                    long catId = Long.parseLong(request.getParameter("catId"));
-                    String catName = request.getParameter("catName");
-                    
-                    JdbcDaoCategory categoryDAO = new JdbcDaoCategory();
-                    boolean success = categoryDAO.insert(new Category(catId, catName));
-                    
-                   
-                    request.getSession().setAttribute("success", success);
-                    response.sendRedirect("CategoryController");
-                   
+                case "new":                    
+                    processNewCategory(request, response);                 
                     break;
                     
                 case "update":
-                    break; //TODO
+                    processUpdateCategory(request, response);
+                    break;
                 case "delete":
-                    break; //TODO
+                    processDeleteCategory(request, response);
+                    break;
             }
             
         }
+    }   
+
+    
+    /*
+    * Methods to handle CRUD operations.
+    */    
+       
+    // From GET
+    private void newCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Specify the action to be performed
+        request.setAttribute("formType", "new");
+        // Send request to the form
+        request.getRequestDispatcher("/WEB-INF/categories/form.jsp")
+            .forward(request, response);
     }
 
-    
-    
-    
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    private void updateCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Obtain the parameter with the category ID
+        long catId = Long.parseLong(request.getParameter("catId"));
+        
+        // Create DAO and find the category in the Database by it's ID
+        JdbcDaoCategory categoryDAO = new JdbcDaoCategory();        
+        Category cat = categoryDAO.findById(catId);
+        
+        // If cat isn't null, send the data to the form, if not go to errorPage.
+        if(cat != null){
+            // Specify the action to be performed (update an existing category)
+            request.setAttribute("formType", "update");
+            request.setAttribute("category", cat);
+            request.getRequestDispatcher("/WEB-INF/categories/form.jsp").forward(request, response);
+        } else {
+            request.setAttribute("errorMessage", "Couldn't find the category to edit.");
+            request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+        }
+        
+    }
 
+    private void deleteCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+    //From POST
+    private void processNewCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        long catId = Long.parseLong(request.getParameter("catId"));
+        String catName = request.getParameter("catName");
+
+        JdbcDaoCategory categoryDAO = new JdbcDaoCategory();
+        boolean success = categoryDAO.insert(new Category(catId, catName));
+
+        request.getSession().setAttribute("success", success);
+        response.sendRedirect("CategoryController");
+    }
+
+    private void processUpdateCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void processDeleteCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

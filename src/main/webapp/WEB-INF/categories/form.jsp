@@ -21,7 +21,11 @@
     </head>
 
     <%
-        List<Category> categoryList = (List<Category>) request.getAttribute("categoryList");
+        String formType = (String) request.getAttribute("formType");
+        Category cat = null;
+        if(formType.equals("update")){
+            cat = (Category)request.getAttribute("category");
+        }
     %>
 
     <body>       
@@ -39,21 +43,35 @@
                         <div class="panel-body">
                             <form class="form-horizontal" role="form" action="CategoryController" method="POST">
                                 <div class="form-group">
-                                    <input type="hidden" name="action" value="new">
+                                    <input type="hidden" name="action" value="<%= formType %>">
                                     <label for="categoryId" class="col-sm-2 control-label">Category ID</label>
                                     <div class="col-sm-10">
-                                        <input type="number" class="form-control" name="catId" id="categoryId" placeholder="Insert ID">
+                                        <input type="number" class="form-control" name="catId" id="categoryId"
+                                            <% if(formType.equals("new")) { %>
+                                                placeholder="Insert category ID"
+                                            <% } else if (formType.equals("update")) { %>
+                                                value="<%= cat.getCategoryId() %>"
+                                            <% } %>   
+                                        >
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="categoryName" class="col-sm-2 control-label">Category Name</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" name="catName" id="categoryName" placeholder="Insert name">
+                                        <input type="text" class="form-control" name="catName" id="categoryName"
+                                            <% if(formType.equals("new")) { %>
+                                                placeholder="Insert category name"
+                                            <% } else if (formType.equals("update")) { %>
+                                                value="<%= cat.getCategoryName() %>"
+                                            <% } %>    
+                                        >
                                     </div>
                                 </div>                               
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-primary">Create</button>
+                                        <button type="submit" class="btn btn-primary">
+                                            <%= formType.substring(0, 1).toUpperCase() + formType.substring(1) %> category
+                                        </button>
                                     </div>
                                 </div>
                             </form>

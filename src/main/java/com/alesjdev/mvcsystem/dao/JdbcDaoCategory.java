@@ -80,5 +80,30 @@ public class JdbcDaoCategory implements IDaoCategory {
         
         return success;
     }
+
+    @Override
+    public Category findById(long id) {
+        Category category = new Category();
+                
+        try {           
+            DataBasePG database = new DataBasePG();
+            Connection conn = database.getConnection();
+            String sql = "SELECT * FROM categories WHERE category_id = ? LIMIT 1";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+           
+            while (rs.next()){
+                category.setCategoryId(rs.getLong("category_id"));
+                category.setCategoryName(rs.getString("category_name"));               
+            }
+            
+            database.disconnectDB();
+        } catch (SQLException ex) { 
+            System.out.println("Error in listAll (Categories): " + ex);
+        } 
+        
+        return category;
+    }
     
 }
