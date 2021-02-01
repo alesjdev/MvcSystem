@@ -24,9 +24,8 @@
         List <Category> categoryList = (List <Category>)request.getAttribute("categoryList");
         String message = "";
         
-        if(request.getSession().getAttribute("success") != null){
-            boolean success = (boolean)request.getSession().getAttribute("success");
-            message = success ? "The category was created successfully." : "Error creating category.";
+        if(request.getSession().getAttribute("message") != null){          
+            message = (String)request.getSession().getAttribute("message");
         }
     %>
     
@@ -42,7 +41,7 @@
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                             <%= message %>                       
                         </div>
-                    <% request.getSession().removeAttribute("success"); %>
+                    <% request.getSession().removeAttribute("message"); %>
                     <% } %>
                     
                     <!-- Table with categories -->

@@ -8,8 +8,12 @@ public interface IDaoCategory {
     
     public List<Category> listAll();
     
-    public boolean insert(Category cat);
+    public String insert(Category cat);
+    
+    public String update(Category cat);
     
     public Category findById(long id);
+    
+    
     
 }

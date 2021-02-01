@@ -159,14 +159,21 @@ public class CategoryController extends HttpServlet {
         String catName = request.getParameter("catName");
 
         JdbcDaoCategory categoryDAO = new JdbcDaoCategory();
-        boolean success = categoryDAO.insert(new Category(catId, catName));
+        String message = categoryDAO.insert(new Category(catId, catName));
 
-        request.getSession().setAttribute("success", success);
+        request.getSession().setAttribute("message", message);
         response.sendRedirect("CategoryController");
     }
 
     private void processUpdateCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        long catId = Long.parseLong(request.getParameter("catId"));
+        String catName = request.getParameter("catName");
+
+        JdbcDaoCategory categoryDAO = new JdbcDaoCategory();
+        String message = categoryDAO.update(new Category(catId, catName));
+        
+        request.getSession().setAttribute("message", message);
+        response.sendRedirect("CategoryController");
     }
 
     private void processDeleteCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

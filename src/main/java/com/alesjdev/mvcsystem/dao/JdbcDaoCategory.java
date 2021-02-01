@@ -54,9 +54,9 @@ public class JdbcDaoCategory implements IDaoCategory {
     
     //Method to insert category.
     @Override
-    public boolean insert(Category cat) {
+    public String insert(Category cat) {
         
-        boolean success;
+        String message;
         
         try {           
             DataBasePG database = new DataBasePG();
@@ -69,16 +69,16 @@ public class JdbcDaoCategory implements IDaoCategory {
             ps.setLong(1, cat.getCategoryId());
             ps.setString(2, cat.getCategoryName());
             ps.executeUpdate();
-            success = true;
+            message = "Category successfully added.";
             
             database.disconnectDB();
             
         } catch (SQLException ex) {
             ex.printStackTrace();
-            success = false;
+            message = "There was a problem adding the category: " + ex.getMessage();
         }
         
-        return success;
+        return message;
     }
 
     @Override
@@ -104,6 +104,33 @@ public class JdbcDaoCategory implements IDaoCategory {
         } 
         
         return category;
+    }
+
+    @Override
+    public String update(Category cat) {
+        String message;
+        
+        try {           
+            DataBasePG database = new DataBasePG();
+            Connection conn = database.getConnection();
+            
+            String sql = "UPDATE categories SET category_name = ? "                    
+                    + "WHERE category_id = ? ";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            
+            ps.setString(1, cat.getCategoryName());
+            ps.setLong(2, cat.getCategoryId());            
+            ps.executeUpdate();
+            
+            message = "Category successfully updated.";         
+            database.disconnectDB();
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            message = "There was a problem modifying the category: " + ex.getMessage();
+        }
+        
+        return message;
     }
     
 }
