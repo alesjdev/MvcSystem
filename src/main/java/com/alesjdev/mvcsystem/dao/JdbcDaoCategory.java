@@ -16,10 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Juan Ales
- */
+
 public class JdbcDaoCategory implements IDaoCategory {
     
     
@@ -39,7 +36,7 @@ public class JdbcDaoCategory implements IDaoCategory {
             Category cat;
             while (rs.next()){
                 cat = new Category();
-                cat.setCategoryId(rs.getInt("category_id"));
+                cat.setCategoryId(rs.getLong("category_id"));
                 cat.setCategoryName(rs.getString("category_name"));
                 categoryList.add(cat);
             }
@@ -100,7 +97,7 @@ public class JdbcDaoCategory implements IDaoCategory {
             
             database.disconnectDB();
         } catch (SQLException ex) { 
-            System.out.println("Error in listAll (Categories): " + ex);
+            System.out.println("Error in findById (Categories): " + ex);
         } 
         
         return category;

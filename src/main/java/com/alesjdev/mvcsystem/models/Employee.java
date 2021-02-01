@@ -11,6 +11,22 @@ public class Employee {
     private int employeeExtension;
     private String employeeBoss;
 
+    public Employee() {
+    }
+
+    public Employee(long employeeId) {
+        this.employeeId = employeeId;
+    }
+ 
+    public Employee(long employeeId, String employeeFirstName, String employeeLastName, Date employeeDob, long employeeReportsTo, int employeeExtension) {
+        this.employeeId = employeeId;
+        this.employeeFirstName = employeeFirstName;
+        this.employeeLastName = employeeLastName;
+        this.employeeDob = employeeDob;
+        this.employeeReportsTo = employeeReportsTo;
+        this.employeeExtension = employeeExtension;
+    }  
+    
     public long getEmployeeId() {
         return employeeId;
     }
