@@ -12,6 +12,8 @@ public interface IDaoCategory {
     
     public String update(Category cat);
     
+    public String delete(Category cat);
+    
     public Category findById(long id);
     
     

@@ -5,6 +5,11 @@ public class Category {
     private String categoryName;
 
     public Category() {
+        
+    }
+
+    public Category(long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public Category(long categoryId, String categoryName) {

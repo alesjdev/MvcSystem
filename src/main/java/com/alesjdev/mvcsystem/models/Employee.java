@@ -9,6 +9,7 @@ public class Employee {
     private Date employeeDob;
     private long employeeReportsTo;
     private int employeeExtension;
+    private String employeeBoss;
 
     public long getEmployeeId() {
         return employeeId;
@@ -58,6 +59,15 @@ public class Employee {
         this.employeeExtension = employeeExtension;
     }
 
+    public String getEmployeeBoss() {
+        return employeeBoss;
+    }
+
+    public void setEmployeeBoss(String employeeBoss) {
+        this.employeeBoss = employeeBoss;
+    }
+ 
+    
     @Override
     public String toString() {
         return this.employeeFirstName + " " + this.employeeLastName;

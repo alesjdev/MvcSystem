@@ -177,6 +177,16 @@ public class CategoryController extends HttpServlet {
     }
 
     private void processDeleteCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // Process request received from index, not form.
+        if(request.getParameter("action").equals("delete")){
+            long catId = Long.parseLong(request.getParameter("catId"));
+                       
+            JdbcDaoCategory categoryDAO = new JdbcDaoCategory();          
+            String message = categoryDAO.delete(new Category(catId));
+            
+            request.getSession().setAttribute("message", message);
+            response.sendRedirect("CategoryController");
+        }
+        
     }
 }

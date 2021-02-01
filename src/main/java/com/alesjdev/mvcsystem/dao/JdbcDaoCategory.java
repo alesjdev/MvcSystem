@@ -132,5 +132,30 @@ public class JdbcDaoCategory implements IDaoCategory {
         
         return message;
     }
+
+    @Override
+    public String delete(Category cat) {
+        String message;
+        
+        try {           
+            DataBasePG database = new DataBasePG();
+            Connection conn = database.getConnection();
+            
+            String sql = "DELETE FROM categories WHERE category_id = ? ";
+            PreparedStatement ps = conn.prepareStatement(sql);
+                       
+            ps.setLong(1, cat.getCategoryId());            
+            ps.executeUpdate();
+            
+            message = "Category successfully deleted.";         
+            database.disconnectDB();
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            message = "There was a problem deleting the category: " + ex.getMessage();
+        }
+        
+        return message;
+    }
     
 }

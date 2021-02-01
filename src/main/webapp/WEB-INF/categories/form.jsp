@@ -50,7 +50,7 @@
                                             <% if(formType.equals("new")) { %>
                                                 placeholder="Insert category ID"
                                             <% } else if (formType.equals("update")) { %>
-                                                value="<%= cat.getCategoryId() %>"
+                                            value="<%= cat.getCategoryId() %>" disabled="true"
                                             <% } %>   
                                         >
                                     </div>

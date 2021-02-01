@@ -68,17 +68,24 @@
                                         <td>
                                             <%= cat.getCategoryName()%>
                                         </td>
+                                        
+                                        <!-- Edit & Delete buttons -->
                                         <td class="text-right">
                                             
                                             <a href="CategoryController?action=update&catId=<%= cat.getCategoryId() %>"
                                                class="btn btn-warning">
                                                 <span class="glyphicon glyphicon-pencil"></span>
                                             </a>
-                                            <a href="CategoryController?action=delete&catId=<%= cat.getCategoryId() %>"
-                                               class="btn btn-danger">
-                                                <span class="glyphicon glyphicon-trash"></span>
-                                            </a>                                            
+                                            
+                                               <form action="CategoryController" method="POST" style="display:inline">
+                                                <input type="hidden" name="action" value="delete">
+                                                <input type="hidden" name="catId" value="<%= cat.getCategoryId() %>">
+                                                <button type="submit" class="btn btn-danger">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </form>                                                
                                         </td>
+                                        
                                     </tr>
                                     <% } %>
                                 </tbody>
