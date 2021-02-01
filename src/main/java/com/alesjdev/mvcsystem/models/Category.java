@@ -4,6 +4,14 @@ public class Category {
     private long categoryId;
     private String categoryName;
 
+    public Category() {
+    }
+
+    public Category(long categoryId, String categoryName) {
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+    } 
+    
     public long getCategoryId() {
         return categoryId;
     }

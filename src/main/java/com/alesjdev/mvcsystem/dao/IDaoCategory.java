@@ -8,4 +8,7 @@ public interface IDaoCategory {
     
     public List<Category> listAll();
     
+    public boolean insert(Category cat);
+    
+    
 }

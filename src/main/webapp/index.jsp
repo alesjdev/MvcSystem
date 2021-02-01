@@ -1,3 +1,7 @@
+<%@page import="com.alesjdev.mvcsystem.models.Category"%>
+<%@page import="java.util.List"%>
+<%@page import="com.alesjdev.mvcsystem.dao.JdbcDaoCategory"%>
+<%@page import="com.alesjdev.mvcsystem.dao.IDaoCategory"%>
 <%@page import="com.alesjdev.mvcsystem.servlets.PropertiesLoader"%>
 <%@page import="java.util.Properties"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -9,12 +13,10 @@
     </head>
     
     <%
-        Properties prop = PropertiesLoader.getProperties();
-        String display = prop.getProperty("dbaccess");
+        request.getRequestDispatcher("/CategoryController").forward(request, response);
     %>
     
     <body>
-        <h1>Hello World!</h1>
-        <h2> <%= display %> </h2>
+        
     </body>
 </html>

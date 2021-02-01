@@ -5,8 +5,11 @@
  */
 package com.alesjdev.mvcsystem.controllers;
 
+import com.alesjdev.mvcsystem.dao.JdbcDaoCategory;
+import com.alesjdev.mvcsystem.models.Category;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Juan Ales
  */
-@WebServlet(name = "CategoryController", urlPatterns = {"/Categories"})
+@WebServlet(name = "CategoryController", urlPatterns = {"/CategoryController"})
 public class CategoryController extends HttpServlet {
 
     /**
@@ -31,7 +34,7 @@ public class CategoryController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("WEB-INF/categories/index.jsp").forward(request, response);
+        
         
     }
 
@@ -47,7 +50,32 @@ public class CategoryController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        if (request.getParameter("action") != null){
+            
+            String action = request.getParameter("action");
+            
+            switch(action){
+                case "new":
+                    request.getRequestDispatcher("/WEB-INF/categories/form.jsp")
+                            .forward(request, response);
+                    break;
+                case "update":
+                    break; //TODO
+                case "delete":
+                    break; //TODO
+            }
+            
+        } else {           
+            JdbcDaoCategory categoryDAO = new JdbcDaoCategory();
+            List <Category> categoryList = categoryDAO.listAll();
+
+            request.setAttribute("categoryList", categoryList);
+            request.getRequestDispatcher("/WEB-INF/categories/index.jsp")
+                    .forward(request, response);
+        }
+        
+        
     }
 
     /**
@@ -61,14 +89,40 @@ public class CategoryController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        //Handles the request from the form.jsp to manipulate categories.
+        if (request.getParameter("action") != null){
+                       
+            String action = request.getParameter("action");
+            
+            switch(action){
+                
+                case "new":
+                    
+                    long catId = Long.parseLong(request.getParameter("catId"));
+                    String catName = request.getParameter("catName");
+                    
+                    JdbcDaoCategory categoryDAO = new JdbcDaoCategory();
+                    boolean success = categoryDAO.insert(new Category(catId, catName));
+                    
+                   
+                    request.getSession().setAttribute("success", success);
+                    response.sendRedirect("CategoryController");
+                   
+                    break;
+                    
+                case "update":
+                    break; //TODO
+                case "delete":
+                    break; //TODO
+            }
+            
+        }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+    
+    
+    
     @Override
     public String getServletInfo() {
         return "Short description";
