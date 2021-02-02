@@ -1,11 +1,11 @@
 <%@page import="java.util.List"%>
-<%@page import="com.alesjdev.mvcsystem.models.Category"%>
+<%@page import="com.alesjdev.mvcsystem.models.Employee"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title>MVC System - Categories</title>
+        <title>MVC System - Employees</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Bootstrap -->
         <link href="<%= request.getContextPath()%>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -22,9 +22,9 @@
 
     <%
         String formType = (String) request.getAttribute("formType");
-        Category cat = null;
+        Employee cat = null;
         if(formType.equals("update")){
-            cat = (Category)request.getAttribute("category");
+            cat = (Employee)request.getAttribute("category");
         }
     %>
 
@@ -50,7 +50,7 @@
                                             <% if(formType.equals("new")) { %>
                                                 placeholder="Insert category ID"
                                             <% } else if (formType.equals("update")) { %>
-                                            value="<%= cat.getCategoryId() %>" disabled="true"
+                                            value="<%= cat.getEmployeeId() %>" disabled="true"
                                             <% } %>   
                                         >
                                     </div>
@@ -62,7 +62,7 @@
                                             <% if(formType.equals("new")) { %>
                                                 placeholder="Insert category name"
                                             <% } else if (formType.equals("update")) { %>
-                                                value="<%= cat.getCategoryName() %>"
+                                                value="<%= cat.getEmployeeFirstName() %>"
                                             <% } %>    
                                         >
                                     </div>

@@ -1,11 +1,12 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
-<%@page import="com.alesjdev.mvcsystem.models.Category"%>
+<%@page import="com.alesjdev.mvcsystem.models.Employee"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title>MVC System - Categories</title>
+        <title>MVC System - Employees</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Bootstrap -->
         <link href="<%= request.getContextPath()%>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -20,11 +21,11 @@
         <![endif]-->
     </head>
     
-    <%        
-        // Validate and obtain list of categories.
-        List <Category> categoryList = null;
-        if(request.getAttribute("categoryList") != null){
-            categoryList = (List <Category>)request.getAttribute("categoryList");
+    <%   
+        // Validate and obtain list of employees.
+        List <Employee> employeeList = null;
+        if(request.getAttribute("employeeList") != null){
+            employeeList = (List <Employee>)request.getAttribute("employeeList");
         }
         
         // Validate and obtain message
@@ -49,10 +50,10 @@
                     <% request.getSession().removeAttribute("message"); %>
                     <% } %>
                     
-                    <!-- Table with categories -->
+                    <!-- Table with employees -->
                     <div class="content-box-large">
                         <div class="panel-heading">
-                            <div class="panel-title">Category list</div>
+                            <div class="panel-title">Employee list</div>
                           
                         </div>
                         <div class="panel-body">
@@ -60,31 +61,47 @@
                                 <thead>
                                     <tr>                                       
                                         <th>ID</th>
-                                        <th>Name</th>                                                                             
+                                        <th>First name</th>
+                                        <th>Last name</th>
+                                        <th>D.O.B.</th>
+                                        <th>Extension</th>
+                                        <th>Reports to</th>                                       
                                     </tr>
                                 </thead>
                                 
                                 <tbody>
-                                    <% for (Category cat : categoryList) { %>
+                                    <% for (Employee emp : employeeList) { %>
                                     <tr>
                                         <td>
-                                            <%= cat.getCategoryId() %>
+                                            <%= emp.getEmployeeId() %>
                                         </td>
                                         <td>
-                                            <%= cat.getCategoryName()%>
+                                            <%= emp.getEmployeeFirstName()%>
                                         </td>
-                                        
+                                        <td>
+                                            <%= emp.getEmployeeLastName() %>
+                                        </td>
+                                        <td>
+                                            <%= new SimpleDateFormat("dd-MM-yyyy").format(emp.getEmployeeDob()) %>
+                                        </td>
+                                        <td>
+                                            <%= emp.getEmployeeExtension()%>
+                                        </td>
+                                        <td>
+                                            <%= emp.getEmployeeBoss() %>
+                                        </td>
+                                      
                                         <!-- Edit & Delete buttons -->
                                         <td class="text-right">
                                             
-                                            <a href="CategoryController?action=update&catId=<%= cat.getCategoryId() %>"
+                                            <a href="EmployeeController?action=update&empId=<%= emp.getEmployeeId() %>"
                                                class="btn btn-warning">
                                                 <span class="glyphicon glyphicon-pencil"></span>
                                             </a>
                                             
-                                               <form action="CategoryController" method="POST" style="display:inline">
+                                               <form action="EmployeeController" method="POST" style="display:inline">
                                                 <input type="hidden" name="action" value="delete">
-                                                <input type="hidden" name="catId" value="<%= cat.getCategoryId() %>">
+                                                <input type="hidden" name="empId" value="<%= emp.getEmployeeId() %>">
                                                 <button type="submit" class="btn btn-danger">
                                                     <span class="glyphicon glyphicon-trash"></span>
                                                 </button>
@@ -95,7 +112,7 @@
                                     <% } %>
                                 </tbody>
                             </table>
-                                <a href="CategoryController?action=new" method="GET" class="btn btn-primary">
+                                <a href="EmployeeController?action=new" method="GET" class="btn btn-primary">
                                     <span class="glyphicon glyphicon-plus"></span>
                                 </a>
                         </div>

@@ -43,6 +43,8 @@ public class JdbcDaoEmployee implements IDaoEmployee {
                 if (reportsTo > 0) {
                     Employee boss = findById(reportsTo);
                     employee.setEmployeeBoss(boss.toString());
+                } else {
+                    employee.setEmployeeBoss("");
                 }
                 
                 employeeList.add(employee);
