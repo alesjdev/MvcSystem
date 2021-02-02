@@ -3,7 +3,6 @@ package com.alesjdev.mvcsystem.controllers;
 import com.alesjdev.mvcsystem.dao.JdbcDaoCategory;
 import com.alesjdev.mvcsystem.models.Category;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,6 +27,7 @@ public class CategoryController extends HttpServlet {
                 case "new":
                     newCategory(request, response);
                     break;
+                    
                 case "update":
                     updateCategory(request, response);
                     break;
@@ -65,6 +65,7 @@ public class CategoryController extends HttpServlet {
                 case "update":
                     processUpdateCategory(request, response);
                     break;
+                    
                 case "delete":
                     processDeleteCategory(request, response);
                     break;
