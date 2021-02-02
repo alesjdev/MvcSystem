@@ -39,7 +39,7 @@
         <div class="page-content">
             <div class="row">               
                 <jsp:include page="../layouts/sidebar.jsp" />               
-                <div class="col-md-offset-2 col-md-6">
+                <div class="col-md-10">
                     
                     <% if (!message.isEmpty()) { %>
                         <div class="alert alert-success alert-dismissible fade in">

@@ -4,9 +4,9 @@
     <div class="sidebar content-box" style="display: block;">
         <ul class="nav">
             <!-- Main menu -->
-            <li class="current"><a href="index.html"><i class="glyphicon glyphicon-home"></i> Dashboard</a></li>
-            <li><a href="calendar.html"><i class="glyphicon glyphicon-calendar"></i> Calendar</a></li>
-            <li><a href="stats.html"><i class="glyphicon glyphicon-stats"></i> Statistics (Charts)</a></li>
+            <li><a href="<%= request.getContextPath() %>/index.jsp"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+            <li><a href="<%= request.getContextPath() %>/CategoryController"><i class="glyphicon glyphicon-calendar"></i> Categories</a></li>
+            <li><a href="<%= request.getContextPath() %>/EmployeeController"><i class="glyphicon glyphicon-stats"></i> Employees</a></li>
             <li><a href="tables.html"><i class="glyphicon glyphicon-list"></i> Tables</a></li>
             <li><a href="buttons.html"><i class="glyphicon glyphicon-record"></i> Buttons</a></li>
             <li><a href="editors.html"><i class="glyphicon glyphicon-pencil"></i> Editors</a></li>
