@@ -100,7 +100,7 @@
                                 </div>
                                 <!-- Employee Reports To -->
                                 <div class="form-group">
-                                    <label for="employeeReportsTo" class="col-sm-2 control-label">Employee supervisor ID</label>
+                                    <label for="employeeReportsTo" class="col-sm-2 control-label">Employee reports to</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" name="empReportsTo" id="employeeReportsTo">
                                             <% for (Employee empl : empList) { %>
