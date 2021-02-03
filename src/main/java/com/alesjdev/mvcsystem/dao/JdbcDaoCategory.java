@@ -25,9 +25,9 @@ public class JdbcDaoCategory implements IDaoCategory {
     public List<Category> listAll() {
         
         List <Category> categoryList = new ArrayList<>();
-                
+        DataBasePG database = new DataBasePG();        
         try {           
-            DataBasePG database = new DataBasePG();
+            
             Connection conn = database.getConnection();
             String sql = "SELECT * FROM categories";
             PreparedStatement ps = conn.prepareStatement(sql);            
@@ -44,6 +44,7 @@ public class JdbcDaoCategory implements IDaoCategory {
             database.disconnectDB();
         } catch (SQLException ex) { 
             System.out.println("Error in listAll (Categories): " + ex);
+            database.disconnectDB();
         } 
         
         return categoryList;
@@ -54,9 +55,10 @@ public class JdbcDaoCategory implements IDaoCategory {
     public String insert(Category cat) {
         
         String message;
+        DataBasePG database = new DataBasePG();
         
         try {           
-            DataBasePG database = new DataBasePG();
+            
             Connection conn = database.getConnection();
             
             String sql = "INSERT INTO categories (category_id, category_name) "
@@ -73,6 +75,7 @@ public class JdbcDaoCategory implements IDaoCategory {
         } catch (SQLException ex) {
             ex.printStackTrace();
             message = "There was a problem adding the category: " + ex.getMessage();
+            database.disconnectDB();
         }
         
         return message;
@@ -81,9 +84,10 @@ public class JdbcDaoCategory implements IDaoCategory {
     @Override
     public Category findById(long id) {
         Category category = new Category();
-                
+        DataBasePG database = new DataBasePG();
+        
         try {           
-            DataBasePG database = new DataBasePG();
+            
             Connection conn = database.getConnection();
             String sql = "SELECT * FROM categories WHERE category_id = ? LIMIT 1";
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -98,6 +102,7 @@ public class JdbcDaoCategory implements IDaoCategory {
             database.disconnectDB();
         } catch (SQLException ex) { 
             System.out.println("Error in findById (Categories): " + ex);
+            database.disconnectDB();
         } 
         
         return category;
@@ -106,9 +111,10 @@ public class JdbcDaoCategory implements IDaoCategory {
     @Override
     public String update(Category cat) {
         String message;
+        DataBasePG database = new DataBasePG();
         
         try {           
-            DataBasePG database = new DataBasePG();
+            
             Connection conn = database.getConnection();
             
             String sql = "UPDATE categories SET category_name = ? "                    
@@ -125,6 +131,7 @@ public class JdbcDaoCategory implements IDaoCategory {
         } catch (SQLException ex) {
             ex.printStackTrace();
             message = "There was a problem modifying the category: " + ex.getMessage();
+            database.disconnectDB();
         }
         
         return message;
@@ -133,9 +140,10 @@ public class JdbcDaoCategory implements IDaoCategory {
     @Override
     public String delete(Category cat) {
         String message;
+        DataBasePG database = new DataBasePG();
         
         try {           
-            DataBasePG database = new DataBasePG();
+            
             Connection conn = database.getConnection();
             
             String sql = "DELETE FROM categories WHERE category_id = ? ";
@@ -150,6 +158,7 @@ public class JdbcDaoCategory implements IDaoCategory {
         } catch (SQLException ex) {
             ex.printStackTrace();
             message = "There was a problem deleting the category: " + ex.getMessage();
+            database.disconnectDB();
         }
         
         return message;

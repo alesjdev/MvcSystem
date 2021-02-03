@@ -159,9 +159,10 @@ public class JdbcDaoEmployee implements IDaoEmployee {
     @Override
     public Employee findById(long id) {
         Employee employee = new Employee();
-                
+        DataBasePG database = new DataBasePG();
+        
         try {           
-            DataBasePG database = new DataBasePG();
+            
             Connection conn = database.getConnection();
             String sql = "SELECT * FROM employees WHERE employee_id = ? LIMIT 1";
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -180,6 +181,7 @@ public class JdbcDaoEmployee implements IDaoEmployee {
             database.disconnectDB();
         } catch (SQLException ex) { 
             System.out.println("Error in findById (Employee): " + ex);
+            database.disconnectDB();
         } 
         
         return employee;
