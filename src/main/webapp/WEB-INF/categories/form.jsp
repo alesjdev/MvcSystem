@@ -38,7 +38,7 @@
                     <!-- Start of Form Box -->
                     <div class="content-box-large">
                         <div class="panel-heading">
-                            <div class="panel-title">Create new category</div>                           
+                            <div class="panel-title"><%= formType.substring(0, 1).toUpperCase() + formType.substring(1) %> category</div>                           
                         </div>
                         <div class="panel-body">
                             <form class="form-horizontal" role="form" action="CategoryController" method="POST">
@@ -50,7 +50,7 @@
                                             <% if(formType.equals("new")) { %>
                                                 placeholder="Insert category ID"
                                             <% } else if (formType.equals("update")) { %>
-                                            value="<%= cat.getCategoryId() %>" disabled="true"
+                                            value="<%= cat.getCategoryId() %>" readonly
                                             <% } %>   
                                         >
                                     </div>

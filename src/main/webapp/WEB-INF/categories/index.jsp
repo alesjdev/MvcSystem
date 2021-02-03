@@ -105,6 +105,7 @@
                 </div>
             </div>
         </div>
+        <br>
         <jsp:include page="../layouts/footer.jsp" />
     </body>
 </html>

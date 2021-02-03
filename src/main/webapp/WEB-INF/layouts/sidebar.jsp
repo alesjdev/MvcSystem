@@ -5,8 +5,8 @@
         <ul class="nav">
             <!-- Main menu -->
             <li><a href="<%= request.getContextPath() %>/index.jsp"><i class="glyphicon glyphicon-home"></i> Home</a></li>
-            <li><a href="<%= request.getContextPath() %>/CategoryController"><i class="glyphicon glyphicon-calendar"></i> Categories</a></li>
-            <li><a href="<%= request.getContextPath() %>/EmployeeController"><i class="glyphicon glyphicon-stats"></i> Employees</a></li>
+            <li><a href="<%= request.getContextPath() %>/CategoryController"><i class="glyphicon glyphicon-tags"></i> Categories</a></li>
+            <li><a href="<%= request.getContextPath() %>/EmployeeController"><i class="glyphicon glyphicon-user"></i> Employees</a></li>
             <li><a href="tables.html"><i class="glyphicon glyphicon-list"></i> Tables</a></li>
             <li><a href="buttons.html"><i class="glyphicon glyphicon-record"></i> Buttons</a></li>
             <li><a href="editors.html"><i class="glyphicon glyphicon-pencil"></i> Editors</a></li>

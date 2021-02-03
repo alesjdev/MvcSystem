@@ -84,6 +84,12 @@ public class EmployeeController extends HttpServlet {
     private void newEmployee(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Specify the action to be performed
         request.setAttribute("formType", "new");
+        
+        // Attach an employee list to display in the "reports to" part of the form.
+        JdbcDaoEmployee employeeDAO = new JdbcDaoEmployee();
+        List<Employee> empList = employeeDAO.listAll();
+        request.setAttribute("empList", empList);
+        
         // Send request to the form
         request.getRequestDispatcher("/WEB-INF/employees/form.jsp")
                 .forward(request, response);
@@ -92,10 +98,14 @@ public class EmployeeController extends HttpServlet {
     private void updateEmployee(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Obtain the parameter with the employee ID
         long empId = Long.parseLong(request.getParameter("empId"));
-        
+              
         // Create DAO and find the employee in the Database by it's ID
         JdbcDaoEmployee employeeDAO = new JdbcDaoEmployee();        
         Employee emp = employeeDAO.findById(empId);
+        
+        // Attach an employee list to display in the "reports to" part of the form.
+        List<Employee> empList = employeeDAO.listAll();
+        request.setAttribute("empList", empList);
         
         // If emp isn't null, send the data to the form, if not go to errorPage.
         if(emp != null){
@@ -116,7 +126,12 @@ public class EmployeeController extends HttpServlet {
         long empId = Long.parseLong(request.getParameter("empId"));
         String empFirstName = request.getParameter("empFirstName");
         String empLastName = request.getParameter("empLastName");
-        Date empDob = parseToDate(request.getParameter("empDob"));
+        Date empDob = null;
+        try {
+            empDob = parseToDate(request.getParameter("empDob"));
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
         long empReportsTo = Long.parseLong(request.getParameter("empReportsTo"));
         int empExtension = Integer.parseInt(request.getParameter("empExtension"));
         
@@ -129,11 +144,16 @@ public class EmployeeController extends HttpServlet {
         response.sendRedirect("EmployeeController");
     }
 
-    private void processUpdateEmployee(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        long empId = Long.parseLong(request.getParameter("empId"));
+    private void processUpdateEmployee(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {       
+        long empId = Long.parseLong(request.getParameter("empId"));        
         String empFirstName = request.getParameter("empFirstName");
         String empLastName = request.getParameter("empLastName");
-        Date empDob = parseToDate(request.getParameter("empDob"));
+        Date empDob = null;
+        try {
+            empDob = parseToDate(request.getParameter("empDob"));
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
         long empReportsTo = Long.parseLong(request.getParameter("empReportsTo"));
         int empExtension = Integer.parseInt(request.getParameter("empExtension"));
         
@@ -163,18 +183,13 @@ public class EmployeeController extends HttpServlet {
     /* 
     * Method to parse String to (sql) Date 
     */
-    private Date parseToDate(String dobString) {       
-        Date dob = null;
+    private Date parseToDate(String dobString) throws ParseException {               
         
-        try {
-            // Parse String to java.util.Date 
-            java.util.Date utilDob = new SimpleDateFormat("dd-MM-yyyy").parse(dobString);
-            // Parse java.util.Date to java.sql.Date
-            dob = new java.sql.Date(utilDob.getTime());
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
-        
+        // Parse String to java.util.Date 
+        java.util.Date utilDob = new SimpleDateFormat("yyyy-MM-dd").parse(dobString);
+        // Parse java.util.Date to java.sql.Date
+        java.sql.Date dob = new java.sql.Date(utilDob.getTime());
+               
         return dob;
     }
 

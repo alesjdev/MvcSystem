@@ -117,11 +117,12 @@
                                 </a>
                         </div>
                     </div>
-                    <!-- End of table with categories -->
+                    <!-- End of table with employees -->
                     
                 </div>
             </div>
         </div>
+        <br>
         <jsp:include page="../layouts/footer.jsp" />
     </body>
 </html>
