@@ -35,9 +35,9 @@ public class JdbcDaoSupplier implements IDaoSupplier {
                 String suppPhoneNumber = rs.getString("supplier_phone_number");               
                 
                 // Create the supplier object
-                Supplier employee = new Supplier(suppId, suppName, suppContactName, suppPhoneNumber);
+                Supplier supplier = new Supplier(suppId, suppName, suppContactName, suppPhoneNumber);
                                
-                supplierList.add(employee);
+                supplierList.add(supplier);
             }
             
             database.disconnectDB();
