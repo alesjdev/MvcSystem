@@ -4,7 +4,7 @@ public class Client {
     private long clientId;
     private String clientCompanyName;
     private String clientContactName;
-    private String clientAdress;
+    private String clientAddress;
     private String clientEmail;
     private String clientPhoneNumber;
 
@@ -15,11 +15,11 @@ public class Client {
         this.clientId = clientId;
     }
 
-    public Client(long clientId, String clientCompanyName, String clientContactName, String clientAdress, String clientEmail, String clientPhoneNumber) {
+    public Client(long clientId, String clientCompanyName, String clientContactName, String clientAddress, String clientEmail, String clientPhoneNumber) {
         this.clientId = clientId;
         this.clientCompanyName = clientCompanyName;
         this.clientContactName = clientContactName;
-        this.clientAdress = clientAdress;
+        this.clientAddress = clientAddress;
         this.clientEmail = clientEmail;
         this.clientPhoneNumber = clientPhoneNumber;
     }  
@@ -48,12 +48,12 @@ public class Client {
         this.clientContactName = clientContactName;
     }
 
-    public String getClientAdress() {
-        return clientAdress;
+    public String getClientAddress() {
+        return clientAddress;
     }
 
-    public void setClientAdress(String clientAdress) {
-        this.clientAdress = clientAdress;
+    public void setClientAddress(String clientAddress) {
+        this.clientAddress = clientAddress;
     }
 
     public String getClientEmail() {
