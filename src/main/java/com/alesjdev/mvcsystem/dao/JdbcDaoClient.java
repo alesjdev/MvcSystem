@@ -90,7 +90,7 @@ public class JdbcDaoClient implements IDaoClient {
             Connection conn = database.getConnection();
             
             String sql = "UPDATE clients SET client_company_name=?, "
-                    + "client_contact_name=?, client_address =?, client_email=? "
+                    + "client_contact_name= ?, client_address =?, client_email=?, "
                     + "client_phone_number=? WHERE client_id= ? ";
             PreparedStatement ps = conn.prepareStatement(sql);
             
