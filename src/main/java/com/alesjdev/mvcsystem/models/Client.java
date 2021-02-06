@@ -8,6 +8,22 @@ public class Client {
     private String clientEmail;
     private String clientPhoneNumber;
 
+    public Client() {
+    }
+
+    public Client(long clientId) {
+        this.clientId = clientId;
+    }
+
+    public Client(long clientId, String clientCompanyName, String clientContactName, String clientAdress, String clientEmail, String clientPhoneNumber) {
+        this.clientId = clientId;
+        this.clientCompanyName = clientCompanyName;
+        this.clientContactName = clientContactName;
+        this.clientAdress = clientAdress;
+        this.clientEmail = clientEmail;
+        this.clientPhoneNumber = clientPhoneNumber;
+    }  
+    
     public long getClientId() {
         return clientId;
     }
@@ -58,6 +74,7 @@ public class Client {
 
     @Override
     public String toString() {
-        return this.clientCompanyName;
+        return (clientCompanyName != null) ?
+                clientCompanyName : clientContactName;
     }       
 }
