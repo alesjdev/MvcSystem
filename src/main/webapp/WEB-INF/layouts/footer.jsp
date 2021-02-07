@@ -1,8 +1,11 @@
+<%@page import="com.alesjdev.mvcsystem.servlets.PropertiesLoader"%>
+<%@page import="java.util.Properties"%>
+<% Properties prop = PropertiesLoader.getProperties(); %>
 <footer>
     <div class="container">
 
         <div class="copy text-center">
-            Copyright 2021 <a href='https://alesjdev.com'>alesjdev.com</a>
+            Copyright 2021 <a href='https://<%= prop.getProperty("webadress") %>'><%= prop.getProperty("webadress") %></a>
         </div>
     </div>
 </footer>
