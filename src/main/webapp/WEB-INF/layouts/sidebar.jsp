@@ -4,12 +4,12 @@
     <div class="sidebar content-box" style="display: block;">
         <ul class="nav">
             <!-- Main menu -->
-            <li><a href="<%= request.getContextPath() %>/index.jsp"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+            <li><a href="<%= request.getContextPath() %>"><i class="glyphicon glyphicon-home"></i> Home</a></li>
             <li><a href="<%= request.getContextPath() %>/CategoryController"><i class="glyphicon glyphicon-tags"></i> Categories</a></li>
             <li><a href="<%= request.getContextPath() %>/EmployeeController"><i class="glyphicon glyphicon-list-alt"></i> Employees</a></li>
-            <li><a href="<%= request.getContextPath() %>/SupplierController"><i class="glyphicon glyphicon-shopping-cart"></i> Suppliers</a></li>
+            <li><a href="<%= request.getContextPath() %>/SupplierController"><i class="glyphicon glyphicon-briefcase"></i> Suppliers</a></li>
             <li><a href="<%= request.getContextPath() %>/ClientController"><i class="glyphicon glyphicon-user"></i> Clients</a></li>
-            <li><a href="editors.html"><i class="glyphicon glyphicon-pencil"></i> Editors</a></li>
+            <li><a href="<%= request.getContextPath() %>/ProductController"><i class="glyphicon glyphicon-shopping-cart"></i> Products</a></li>
             <li><a href="forms.html"><i class="glyphicon glyphicon-tasks"></i> Forms</a></li>
             <li class="submenu">
                 <a href="#">

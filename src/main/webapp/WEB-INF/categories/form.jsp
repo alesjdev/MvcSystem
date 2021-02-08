@@ -52,7 +52,7 @@
                                             <% } else if (formType.equals("update")) { %>
                                             value="<%= cat.getCategoryId() %>" readonly
                                             <% } %>   
-                                        >
+                                        required >
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -64,21 +64,24 @@
                                             <% } else if (formType.equals("update")) { %>
                                                 value="<%= cat.getCategoryName() %>"
                                             <% } %>    
-                                        >
+                                        required >
                                     </div>
                                 </div>                               
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
                                         <button type="submit" class="btn btn-primary">
                                             <%= formType.substring(0, 1).toUpperCase() + formType.substring(1) %> category
-                                        </button>
+                                        </button>                                                                         
                                     </div>
-                                </div>
+                                </div>                               
                             </form>
+                            <div class="col-sm-12 text-center">
+                                <button class="btn btn-danger" onclick="history.back()">Cancel</button>
+                            </div>
                         </div>
                     </div>
                     <!-- End of form box -->
-                    
+                    <br><br>
                 </div>
             </div>
         </div>

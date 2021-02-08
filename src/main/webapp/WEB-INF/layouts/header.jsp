@@ -6,7 +6,7 @@
             <div class="col-md-5">
                 <!-- Logo -->
                 <div class="logo">
-                    <h1><a href="index.html">MVC System</a></h1>
+                    <h1><a href="<%= request.getContextPath() %>">MVC System</a></h1>
                 </div>
             </div>
             <div class="col-md-5">

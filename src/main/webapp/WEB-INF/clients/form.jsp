@@ -131,6 +131,9 @@
                                     </div>
                                 </div>
                             </form>
+                            <div class="col-sm-12 text-center">
+                                <button class="btn btn-danger" onclick="history.back()">Cancel</button>
+                            </div>
                         </div>
                     </div>
                     <!-- End of form box -->
