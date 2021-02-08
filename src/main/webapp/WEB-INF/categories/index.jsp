@@ -74,23 +74,27 @@
                                             <%= cat.getCategoryName()%>
                                         </td>
                                         
-                                        <!-- Edit & Delete buttons -->
+                                        <!-- View, Edit and Delete buttons -->
                                         <td class="text-right">
                                             
+                                            <a href="CategoryController?action=showProducts&catId=<%= cat.getCategoryId() %>"
+                                               class="btn btn-success">
+                                                <span class="glyphicon glyphicon-search"></span>
+                                            </a>
+                                               
                                             <a href="CategoryController?action=update&catId=<%= cat.getCategoryId() %>"
                                                class="btn btn-warning">
                                                 <span class="glyphicon glyphicon-pencil"></span>
                                             </a>
                                             
-                                               <form action="CategoryController" method="POST" style="display:inline">
+                                            <form action="CategoryController" method="POST" style="display:inline">
                                                 <input type="hidden" name="action" value="delete">
                                                 <input type="hidden" name="catId" value="<%= cat.getCategoryId() %>">
                                                 <button type="submit" class="btn btn-danger">
                                                     <span class="glyphicon glyphicon-trash"></span>
                                                 </button>
                                             </form>                                                
-                                        </td>
-                                        
+                                        </td>                                       
                                     </tr>
                                     <% } %>
                                 </tbody>

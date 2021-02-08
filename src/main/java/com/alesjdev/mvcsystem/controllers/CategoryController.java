@@ -1,7 +1,7 @@
 package com.alesjdev.mvcsystem.controllers;
 
-import com.alesjdev.mvcsystem.dao.JdbcDaoCategory;
-import com.alesjdev.mvcsystem.models.Category;
+import com.alesjdev.mvcsystem.dao.*;
+import com.alesjdev.mvcsystem.models.*;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -31,7 +31,9 @@ public class CategoryController extends HttpServlet {
                 case "update":
                     updateCategory(request, response);
                     break;
-                
+                case "showProducts":
+                    showProducts(request, response);
+                    break;
             }
             
         } else {           
@@ -108,6 +110,35 @@ public class CategoryController extends HttpServlet {
         }
         
     }
+    
+    private void showProducts(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Create DAOs
+        JdbcDaoCategory categoryDAO = new JdbcDaoCategory();
+        JdbcDaoProduct productDao = new JdbcDaoProduct();
+        
+        // Obtain the category ID to find the list of products associated with it       
+        long catId = Long.parseLong(request.getParameter("catId"));
+        
+        // Obtain the category through it's ID
+        Category cat = categoryDAO.findById(catId);
+        
+        // Validate cat isn't null.
+        if (cat != null){
+            // Obtain list of products associated with the category through products DAO method
+            List<Product> productList = productDao.getProductByCategory(cat);
+            
+            // Assign the values to attributes and send them to the display form
+            request.setAttribute("category", cat);
+            request.setAttribute("productList", productList);
+            request.getRequestDispatcher("/WEB-INF/categories/showProducts.jsp")
+                    .forward(request, response);
+        } else {
+            request.setAttribute("errorMessage", "Couldn't find the category.");
+            request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+        }
+        
+    }
+    
     
     
     //From POST
