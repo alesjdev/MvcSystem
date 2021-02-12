@@ -1,6 +1,9 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.time.Instant"%>
+<%@page import="java.util.Date"%>
+<%@page import="com.alesjdev.mvcsystem.models.*"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
@@ -21,7 +24,13 @@
     </head>
     
     <%   
+        // Get lists
+        List <Employee> employeeList = (List<Employee>)request.getAttribute("employeeList");
+        List <Product> productList = (List<Product>)request.getAttribute("productList");
+        List <Client> clientList = (List<Client>)request.getAttribute("clientList");
         
+        //Get current order
+        Order order = (Order)request.getAttribute("order");
     %>
     
     <body>       
@@ -50,22 +59,31 @@
                                         <!-- Selectors div -->
                                         <div class="col-sm-6" style="margin-top: 15px;">                                         
                                             <div class="row">
+                                                <!-- Date div -->
                                                 <div class="col-sm-6">
                                                     Order date:
-                                                    <input type="date" class="form-control">
+                                                    <input type="date" class="form-control" value="">
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-top: 15px;">
+                                                <!-- Employee div -->
                                                 <div class="col-sm-6">
                                                     Choose employee
                                                     <select name="employeeId" id="" class="form-control">
-                                                        
+                                                        <option value="" selected disabled>Select an employee</option>
+                                                        <% for(Employee emp : employeeList) { %>
+                                                            <option value="<%= emp.getEmployeeId() %>"><%= emp.toString() %></option>
+                                                        <% } %>
                                                     </select>
                                                 </div>
+                                                <!-- Client div -->
                                                 <div class="col-sm-6">
                                                     Choose client
                                                     <select name="clientId" id="" class="form-control">
-                                                        
+                                                        <option value="" selected disabled>Select a client</option>
+                                                        <% for(Client cli : clientList) { %>
+                                                            <option value="<%= cli.getClientId() %>"><%= cli %></option>
+                                                        <% } %>
                                                     </select>
                                                 </div>
                                             </div>
@@ -103,11 +121,14 @@
                                             Choose Product
                                             <select name="prodId" id="" class="form-control">
                                                 <option value="" selected disabled>Select a product</option>
+                                                <% for(Product prod : productList) { %>
+                                                    <option value="<%= prod.getProductId() %>"><%= prod %></option>
+                                                <% } %>
                                             </select>
                                         </div>
                                         <div class="col-sm-3">
                                             Quantity
-                                            <input type="number" step="1" class="form-control" placeholder="Choose quantity to add">
+                                            <input type="number" name="prodQuantity" step="1" class="form-control" placeholder="Choose quantity to add">
                                         </div>
                                         
                                         <div class="col-sm-3 text-center">
@@ -132,12 +153,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>asd</td>
-                                                    <td>2</td>
-                                                    <td>3.50</td>
-                                                    <td>7</td>
-                                                </tr>
+                                                
                                             </tbody>
                                         </table>
                                     </div>

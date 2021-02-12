@@ -28,11 +28,26 @@ public class PosController extends HttpServlet {
         List<Product> productList = productDAO.listAll();
         List<Employee> employeeList = employeeDAO.listAll();
         
-        //Set lists as attributes to the index
+        Order order = null;
+        if(request.getSession().getAttribute("order") == null){
+            order = new Order();
+            order.setAmount(0.0);
+            order.setOrderDate(new java.sql.Date(new java.util.Date().getTime()));       
+        } else {
+            order = (Order)request.getSession().getAttribute("order");
+            double totalOrderAmount = 0.0;
+            for(OrderDetail details : order.getDetails()){
+                totalOrderAmount += details.getAmount();
+            }
+            order.setAmount(totalOrderAmount);
+        }
+        request.getSession().setAttribute("order", order);
+        
+        //Set lists and order as attributes to the index
         request.setAttribute("clientList", clientList);
         request.setAttribute("productList", productList);
         request.setAttribute("employeeList", employeeList);        
-        request.getRequestDispatcher("WEB-INF/pos/index.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/pos/index.jsp").forward(request, response);
     }
 
     
@@ -41,22 +56,53 @@ public class PosController extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getParameter("action");
         
-        switch(action){
-            case "finishAndPay":
-                finishAndPay(request, response);
-                break;
-            case "addProduct":
-                addProduct(request, response);
-                break;
+        if(action != null) {
+            switch(action){
+                case "finishAndPay":
+                    finishAndPay(request, response);
+                    break;
+                case "addProduct":
+                    addProduct(request, response);
+                    break;
+            }
         }
     }
 
-    private void finishAndPay(HttpServletRequest request, HttpServletResponse response) {
+    private void finishAndPay(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
     }
 
-    private void addProduct(HttpServletRequest request, HttpServletResponse response) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void addProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Get the product ID and the quantity sent by the form
+        long prodId = Long.parseLong(request.getParameter("prodId"));
+        int prodQuantity = Integer.parseInt(request.getParameter("prodQuantity"));
+        
+        // Get the product to add by it's ID
+        JdbcDaoProduct productDAO = new JdbcDaoProduct();
+        Product product = productDAO.findById(prodId);
+        
+        // Get the total amount based on the item quantity multiplied by it's unit price
+        double amount = product.getProductUnitPrice() * prodQuantity;
+        
+        // Get order object and create Order Detail
+        Order order = (Order)request.getSession().getAttribute("order");
+        if(order == null){
+            order = new Order();
+        }
+        OrderDetail details = new OrderDetail();
+        
+        // Set the values of the current transaction
+        details.setQuantity(prodQuantity);
+        details.setProduct(product);
+        details.setOrder(order);
+        details.setAmount(amount);
+        
+        // Add details to the order details.        
+        order.getDetails().add(details);
+        
+        request.getSession().setAttribute("order", order);
+        
+        response.sendRedirect("/PosController");
     }
    
 }
