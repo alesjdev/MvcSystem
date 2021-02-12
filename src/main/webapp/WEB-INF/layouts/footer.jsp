@@ -1,6 +1,7 @@
 <%@page import="com.alesjdev.mvcsystem.servlets.PropertiesLoader"%>
 <%@page import="java.util.Properties"%>
 <% Properties prop = PropertiesLoader.getProperties(); %>
+<br><br>
 <footer>
     <div class="container">
 
