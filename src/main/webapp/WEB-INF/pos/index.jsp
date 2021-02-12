@@ -30,7 +30,7 @@
         List <Client> clientList = (List<Client>)request.getAttribute("clientList");
         
         //Get current order
-        Order order = (Order)request.getAttribute("order");
+        Order order = (Order)request.getSession().getAttribute("order");
     %>
     
     <body>       
@@ -97,7 +97,7 @@
                                             </div>
                                             <div class="col-sm-12 text-center">
                                                 <h2 style="font-size:80px; color: #ff9900;">
-                                                    0.00
+                                                    <%= order.getSimplifiedAmount() %>
                                                 </h2>
                                             </div>
                                         </div>

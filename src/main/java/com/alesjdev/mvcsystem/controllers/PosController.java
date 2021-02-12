@@ -28,7 +28,7 @@ public class PosController extends HttpServlet {
         List<Product> productList = productDAO.listAll();
         List<Employee> employeeList = employeeDAO.listAll();
         
-        Order order = null;
+        Order order;
         if(request.getSession().getAttribute("order") == null){
             order = new Order();
             order.setAmount(0.0);
