@@ -1,3 +1,4 @@
+<%@page import="com.alesjdev.mvcsystem.models.*"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -20,7 +21,7 @@
     </head>
     
     <%   
-        
+        Order completedOrder = (Order)request.getSession().getAttribute("completedOrder");
     %>
     
     <body>       
@@ -30,6 +31,15 @@
                 <jsp:include page="../layouts/sidebar.jsp" />               
                 <div class="col-md-10">
                     
+                    <% if(completedOrder != null) { %>
+                        <div class="alert alert-success alert-dismissible fade in">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            Order with ID <%= completedOrder.getOrderId() %> was successfully created.
+                        </div>
+                    <% request.getSession().removeAttribute("completedOrder"); %>
+                    <% request.getSession().removeAttribute("order"); %>
+                    <% } %>
+                  
                     <!-- Table with Orders -->
                     <div class="content-box-large">
                         <div class="panel-heading">

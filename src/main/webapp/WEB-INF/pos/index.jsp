@@ -52,7 +52,7 @@
                             <div class="content-box-large box-with-header">
                                 
                                 <!-- Form Start -->
-                                <form action="PosController">
+                                <form action="PosController" method="POST">
                                     <input type="hidden" name="action" value="finishAndPay">
                                     <!-- Main row with selectors and payment -->
                                     <div class="row">
@@ -62,7 +62,7 @@
                                                 <!-- Date div -->
                                                 <div class="col-sm-6">
                                                     Order date:
-                                                    <input type="date" class="form-control" value="">
+                                                    <input type="date" class="form-control" value="<%= order.getOrderDate().toString() %>">
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-top: 15px;">
@@ -97,7 +97,7 @@
                                             </div>
                                             <div class="col-sm-12 text-center">
                                                 <h2 style="font-size:80px; color: #ff9900;">
-                                                    <%= order.getSimplifiedAmount() %>
+                                                    <%= order.getSimplifiedAmount() %> £
                                                 </h2>
                                             </div>
                                         </div>
@@ -109,7 +109,7 @@
                                 <!-- Product handler row -->
                                 <div class="row">
                                     <!-- Row to select and add products -->
-                                    <form action="PosController">
+                                    <form action="PosController" method="POST">
                                         <input type="hidden" name="action" value="addProduct">
                                         
                                         <div class="col-sm-3">
@@ -153,7 +153,14 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                
+                                                <% for(OrderDetail details : order.getDetails()) { %>
+                                                <tr>
+                                                    <td><%= details.getProduct().getProductName() %></td>
+                                                    <td><%= details.getQuantity() %></td>
+                                                    <td><%= details.getProduct().getProductUnitPrice() %></td>
+                                                    <td><%= details.getSimplifiedAmount() %></td>
+                                                </tr>
+                                                <% } %>
                                             </tbody>
                                         </table>
                                     </div>
@@ -162,7 +169,7 @@
                                 
                                 <!-- Back / Cancel button -->
                                 <div class="col-sm-12 text-center">
-                                    <button class="btn btn-danger" onclick="history.back()">Cancel</button>
+                                    <a href="PosController?action=cancelOrder" class="btn btn-danger">Remove all items</a>
                                 </div>
                                 <br><br>
                                 

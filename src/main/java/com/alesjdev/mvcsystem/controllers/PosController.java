@@ -4,6 +4,7 @@ import com.alesjdev.mvcsystem.dao.*;
 import com.alesjdev.mvcsystem.models.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +19,13 @@ public class PosController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //If user comes from cancel order button, delete it.
+        if(request.getParameter("action")!=null){
+            if(request.getParameter("action").equals("cancelOrder")){
+                request.getSession().removeAttribute("order");
+            }
+        }
+        
         //Create DAOs
         JdbcDaoClient clientDAO = new JdbcDaoClient();
         JdbcDaoProduct productDAO = new JdbcDaoProduct();
@@ -69,7 +77,29 @@ public class PosController extends HttpServlet {
     }
 
     private void finishAndPay(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        long clientId = Long.parseLong(request.getParameter("clientId"));
+        long employeeId = Long.parseLong(request.getParameter("employeeId"));       
         
+        JdbcDaoClient clientDAO = new JdbcDaoClient();
+        JdbcDaoEmployee employeeDAO = new JdbcDaoEmployee();
+        
+        Client client = clientDAO.findById(clientId);
+        Employee employee = employeeDAO.findById(employeeId);
+        
+        // Obtain order from the session
+        Order order = (Order) request.getSession().getAttribute("order");
+        
+        // Add the client and employee to the order
+        order.setClient(client);
+        order.setEmployee(employee);
+        
+        JdbcDaoOrder orderDAO = new JdbcDaoOrder();
+        Order completedOrder = orderDAO.insert(order);
+        
+        if (completedOrder != null) {
+            request.getSession().setAttribute("completedOrder", completedOrder);
+            response.sendRedirect(request.getContextPath()+"/OrderController");
+        }
     }
 
     private void addProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -88,6 +118,7 @@ public class PosController extends HttpServlet {
         Order order = (Order)request.getSession().getAttribute("order");
         if(order == null){
             order = new Order();
+            request.getSession().setAttribute("order", order);
         }
         OrderDetail details = new OrderDetail();
         
@@ -100,9 +131,9 @@ public class PosController extends HttpServlet {
         // Add details to the order details.        
         order.getDetails().add(details);
         
-        request.getSession().setAttribute("order", order);
+        //request.getSession().setAttribute("order", order);
         
-        response.sendRedirect("/PosController");
+        response.sendRedirect(request.getContextPath()+"/PosController");
     }
    
 }
