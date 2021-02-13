@@ -69,7 +69,7 @@
                                                 <!-- Employee div -->
                                                 <div class="col-sm-6">
                                                     Choose employee
-                                                    <select name="employeeId" id="" class="form-control">
+                                                    <select name="employeeId" id="" class="form-control" required>
                                                         <option value="" selected disabled>Select an employee</option>
                                                         <% for(Employee emp : employeeList) { %>
                                                             <option value="<%= emp.getEmployeeId() %>"><%= emp.toString() %></option>
@@ -79,7 +79,7 @@
                                                 <!-- Client div -->
                                                 <div class="col-sm-6">
                                                     Choose client
-                                                    <select name="clientId" id="" class="form-control">
+                                                    <select name="clientId" id="" class="form-control" required>
                                                         <option value="" selected disabled>Select a client</option>
                                                         <% for(Client cli : clientList) { %>
                                                             <option value="<%= cli.getClientId() %>"><%= cli %></option>
@@ -119,7 +119,7 @@
                                         
                                         <div class="col-sm-3">
                                             Choose Product
-                                            <select name="prodId" id="" class="form-control">
+                                            <select name="prodId" id="" class="form-control" required>
                                                 <option value="" selected disabled>Select a product</option>
                                                 <% for(Product prod : productList) { %>
                                                     <option value="<%= prod.getProductId() %>"><%= prod %></option>
@@ -128,7 +128,7 @@
                                         </div>
                                         <div class="col-sm-3">
                                             Quantity
-                                            <input type="number" name="prodQuantity" step="1" class="form-control" placeholder="Choose quantity to add">
+                                            <input type="number" name="prodQuantity" step="1" class="form-control" placeholder="Quantity to add" value="1">
                                         </div>
                                         
                                         <div class="col-sm-3 text-center">
