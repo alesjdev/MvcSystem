@@ -1,6 +1,6 @@
 package com.alesjdev.mvcsystem.dao;
 
-import com.alesjdev.mvcsystem.models.Order;
+import com.alesjdev.mvcsystem.models.*;
 import java.util.List;
 import java.util.Map;
 
@@ -11,10 +11,8 @@ public interface IDaoOrder {
     
     public Order insert(Order ord);
     
-    public String update(Order ord);
-    
-    public String delete(Order ord);
-    
     public Order findById(long ordId);
+    
+    public List<OrderDetail> getDetails (Order order);
     
 }

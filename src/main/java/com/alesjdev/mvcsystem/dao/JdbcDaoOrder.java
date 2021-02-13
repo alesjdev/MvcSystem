@@ -1,14 +1,16 @@
 package com.alesjdev.mvcsystem.dao;
 
 import com.alesjdev.mvcsystem.dbconnection.DataBasePG;
-import com.alesjdev.mvcsystem.models.Order;
+import com.alesjdev.mvcsystem.models.*;
 import com.alesjdev.mvcsystem.models.OrderDetail;
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,11 +18,45 @@ import java.util.Map;
 
 public class JdbcDaoOrder implements IDaoOrder {
 
+    
     @Override
     public List<Order> listAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DataBasePG db = new DataBasePG();
+        Connection conn = db.getConnection();
+        List<Order> orderList = new ArrayList<>();
+        
+        try {
+            String sql = "SELECT * FROM orders";            
+            PreparedStatement ps = conn.prepareStatement(sql);           
+            ResultSet rs = ps.executeQuery();
+            
+            Order order = null;
+            while(rs.next()){
+                long orderId = rs.getLong("order_id");
+                Client client = new JdbcDaoClient().findById(rs.getLong("client_id"));
+                Employee employee = new JdbcDaoEmployee().findById(rs.getLong("employee_id"));
+                Date orderDate = rs.getDate("order_date");
+                int orderDiscount = rs.getInt("order_discount");
+                double orderAmount = rs.getBigDecimal("order_amount").doubleValue();
+                
+                if(employee != null && client != null){
+                    order = new Order(orderId, employee, client, orderDate, orderDiscount, orderAmount);
+                    orderList.add(order);
+                }
+                
+            }
+            
+            db.disconnectDB();
+            
+        } catch (SQLException e) {
+            System.err.println("Error fetching order list from database: " + e.getMessage());
+            db.disconnectDB();
+        }
+        
+        return orderList;
     }
 
+    
     @Override
     public Order insert(Order ord) {
         
@@ -113,19 +149,74 @@ public class JdbcDaoOrder implements IDaoOrder {
         return ord;
     }
 
-    @Override
-    public String update(Order ord) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String delete(Order ord) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
     @Override
     public Order findById(long ordId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Order order = null;
+        Employee employee = null;
+        Client client = null;
+        
+        DataBasePG db = new DataBasePG();
+        Connection conn = db.getConnection();
+        
+        try {
+            String sql = "SELECT * FROM orders WHERE order_id=? LIMIT 1";          
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setLong(1, ordId);
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                client = new JdbcDaoClient().findById(rs.getLong("client_id"));
+                employee = new JdbcDaoEmployee().findById((rs.getLong("employee_id")));
+                Date date = rs.getDate("order_date");
+                int discount = rs.getInt("order_discount");
+                double amount = rs.getBigDecimal("order_amount").doubleValue();
+                
+                order = new Order(ordId, employee, client, date, discount, amount);
+            }
+            
+            db.disconnectDB();
+        } catch (SQLException e) {
+            System.err.println("Error finding Order by ID: " + e.getMessage());
+            db.disconnectDB();
+        }
+        
+        return order;
+    }
+
+    
+    @Override
+    public List<OrderDetail> getDetails(Order order) {
+        OrderDetail details;
+        List<OrderDetail> detailList = new ArrayList<>();
+        Product product;
+        
+        DataBasePG db = new DataBasePG();
+        Connection conn = db.getConnection();
+        
+        try {
+            String sql = "SELECT * FROM order_details WHERE order_id = ?";           
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setLong(1, order.getOrderId());
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                long detailId = rs.getLong("detail_id");
+                product = new JdbcDaoProduct().findById(rs.getLong("product_id"));
+                int quantity = rs.getInt("quantity");
+                double amount = rs.getBigDecimal("amount").doubleValue();
+                
+                details = new OrderDetail(detailId, order, product, quantity, amount);
+                detailList.add(details);
+            }
+            
+            db.disconnectDB();
+        } catch (SQLException e) {
+            System.err.println("Error retrieving order details: " + e.getMessage());
+            db.disconnectDB();         
+        }
+        
+        return detailList;
     }
     
 }

@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.alesjdev.mvcsystem.models.*"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -22,6 +23,7 @@
     
     <%   
         Order completedOrder = (Order)request.getSession().getAttribute("completedOrder");
+        List <Order> orderList = (List <Order>)request.getAttribute("orderList");
     %>
     
     <body>       
@@ -52,33 +54,43 @@
                                         <th>ID</th>
                                         <th>Date</th>
                                         <th>Client</th>
+                                        <th>Employee</th>
+                                        <th>Discount applied</th>
                                         <th>Amount</th>                           
                                     </tr>
                                 </thead>
                                 
-                                <tbody>                                   
+                                <tbody>  
+                                    <% for(Order order : orderList) { %>
                                     <tr>
-                                        <!-- TODO -->
+                                        
                                         <td>
-                                            <%= "asd" %>
+                                            <%= order.getOrderId() %>
                                         </td>
                                         <td>
-                                            <%= "asd" %>
+                                            <%= new SimpleDateFormat("dd-MM-yyyy").format(order.getOrderDate()) %>
                                         </td>
                                         <td>
-                                            <%= "asd" %>
+                                            <%= order.getClient() %>
                                         </td>
                                         <td>
-                                            <%= "asd" %>
+                                            <%= order.getEmployee() %>
+                                        </td>
+                                        <td>
+                                            <%= order.getDiscount() %> %
+                                        </td>
+                                        <td>
+                                            <%= order.getSimplifiedAmount() %>
                                         </td>
                                         
                                         <td class="text-right">
-                                            <a href="#" class="btn btn-primary">
+                                            <a href="OrderController?action=seeDetail&orderId=<%= order.getOrderId() %>" class="btn btn-primary">
                                                 <span class="glyphicon glyphicon-search"></span>
                                             </a>
                                         </td>
-                                        <!-- /TODO -->
-                                    </tr>                                   
+                                        
+                                    </tr>
+                                    <% } %>
                                 </tbody>
                             </table>                               
                         </div>
