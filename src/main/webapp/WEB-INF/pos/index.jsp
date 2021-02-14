@@ -57,17 +57,17 @@
                                     <!-- Main row with selectors and payment -->
                                     <div class="row">
                                         <!-- Selectors div -->
-                                        <div class="col-sm-6" style="margin-top: 15px;">                                         
+                                        <div class="col-sm-9" style="margin-top: 15px;">                                         
                                             <div class="row">
                                                 <!-- Date div -->
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-4">
                                                     Order date:
                                                     <input type="date" class="form-control" value="<%= order.getOrderDate().toString() %>">
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-top: 15px;">
                                                 <!-- Employee div -->
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-4">
                                                     Choose employee
                                                     <select name="employeeId" id="" class="form-control" required>
                                                         <option value="" selected disabled>Select an employee</option>
@@ -77,7 +77,7 @@
                                                     </select>
                                                 </div>
                                                 <!-- Client div -->
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-4">
                                                     Choose client
                                                     <select name="clientId" id="" class="form-control" required>
                                                         <option value="" selected disabled>Select a client</option>
@@ -86,12 +86,22 @@
                                                         <% } %>
                                                     </select>
                                                 </div>
+                                                <!-- Discount div -->
+                                                <div class="col-sm-4">
+                                                    Apply discount
+                                                    <select name="discount" id="" class="form-control" required>
+                                                        <option value="0">0%</option>
+                                                        <option value="5">5%</option>
+                                                        <option value="10">10%</option>
+                                                        <option value="15">15%</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                             
                                         </div>
                                         
                                         <!-- Payment div -->
-                                        <div class="col-sm-6" style="margin-top: 15px;">
+                                        <div class="col-sm-3" style="margin-top: 15px;">
                                             <div class="col-sm-12 text-center">
                                                 <input type="submit" class="btn btn-lg btn-success" value="Finish and Pay">
                                             </div>

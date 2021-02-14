@@ -24,6 +24,7 @@
     <%   
         Order order = (Order)request.getAttribute("order");
         List <OrderDetail> orderDetails = order.getDetails();
+        double totalWithoutDiscount=0.0;
     %>
     
     <body>       
@@ -90,6 +91,7 @@
                                             </td>
                                             <td>
                                                 <%= details.getAmount() %>
+                                                <% totalWithoutDiscount+=details.getAmount(); %>
                                             </td>
                                         </tr>
                                         <% } %>
@@ -99,18 +101,26 @@
                                     
                             <hr>
                             
-                            <!-- Discount and total -->
+                            <!-- Total, discount applied and total after discount -->
                             <div class="row">
-                                <div class="col-sm-offset-9 col-sm-2 text-right" style="font-size: 15px;">
+                                <div class="col-sm-offset-9 col-sm-2 text-right" style="font-size: 20px;">
+                                    Total:
+                                </div>
+                                <div class="col-sm-1 text-left" style="font-size: 20px;">
+                                    <%= totalWithoutDiscount %> £
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-offset-9 col-sm-2 text-right" style="font-size: 20px;">
                                     Discount applied:
                                 </div>
-                                <div class="col-sm-1 text-left" style="font-size: 15px;">
+                                <div class="col-sm-1 text-left" style="font-size: 20px;">
                                     <%= order.getDiscount() %> %
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-offset-9 col-sm-2 text-right" style="font-size: 30px;">
-                                    Total amount:
+                                    To pay:
                                 </div>
                                 <div class="col-sm-1 text-left" style="font-size: 30px;">
                                     <%= order.getSimplifiedAmount() %> £

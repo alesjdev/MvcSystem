@@ -79,6 +79,7 @@ public class PosController extends HttpServlet {
     private void finishAndPay(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         long clientId = Long.parseLong(request.getParameter("clientId"));
         long employeeId = Long.parseLong(request.getParameter("employeeId"));       
+        int discount = Integer.parseInt(request.getParameter("discount"));
         
         JdbcDaoClient clientDAO = new JdbcDaoClient();
         JdbcDaoEmployee employeeDAO = new JdbcDaoEmployee();
@@ -92,6 +93,9 @@ public class PosController extends HttpServlet {
         // Add the client and employee to the order
         order.setClient(client);
         order.setEmployee(employee);
+        
+        //Add discount applied
+        order.setDiscount(discount);
         
         JdbcDaoOrder orderDAO = new JdbcDaoOrder();
         Order completedOrder = orderDAO.insert(order);

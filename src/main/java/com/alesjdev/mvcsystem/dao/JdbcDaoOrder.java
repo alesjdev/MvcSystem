@@ -84,7 +84,10 @@ public class JdbcDaoOrder implements IDaoOrder {
             psOrder.setLong(2, ord.getEmployee().getEmployeeId());
             psOrder.setDate(3, ord.getOrderDate());
             psOrder.setInt(4, ord.getDiscount());
-            psOrder.setBigDecimal(5, new BigDecimal(ord.getAmount()));      
+            psOrder.setBigDecimal(5, new BigDecimal(
+                    ord.getAmount() * (100-ord.getDiscount()) / 100
+                )
+            );      
             
             psOrder.executeUpdate();
             
