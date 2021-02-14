@@ -12,12 +12,14 @@
             <div class="col-md-5">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="input-group form">
-                            <input type="text" class="form-control" placeholder="Search...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-primary" type="button">Search</button>
-                            </span>
-                        </div>
+                        <form action="SearchController" method="POST">
+                            <div class="input-group form">
+                                <input type="text" name="searchCriteria" class="form-control" placeholder="Search..." required>
+                                <span class="input-group-btn">
+                                    <input type="submit" class="btn btn-primary" value="Search">
+                                </span>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

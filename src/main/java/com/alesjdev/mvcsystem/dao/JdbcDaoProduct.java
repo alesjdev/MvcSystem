@@ -212,6 +212,42 @@ public class JdbcDaoProduct implements IDaoProduct {
         
         return productList;
     }
+
+    @Override
+    public List<Product> searchByCriteria(String param) {
+        List<Product> productList = new ArrayList<>();
+        
+        DataBasePG db = new DataBasePG();
+        Connection conn = db.getConnection();
+        
+        try {
+            String sql = "SELECT * FROM products WHERE product_name ILIKE ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, "%"+param+"%");
+            ResultSet rs = ps.executeQuery();
+            
+            Product prod;
+            while(rs.next()){
+                long prodId = rs.getLong("product_id");
+                Supplier supplier = new JdbcDaoSupplier().findById(rs.getLong("supplier_id"));
+                Category category= new JdbcDaoCategory().findById(rs.getLong("category_id"));
+                String prodName = rs.getString("product_name");
+                double prodUnitPrice = rs.getDouble("product_unit_price");
+                int prodStock = rs.getInt("product_stock");
+                
+                prod = new Product(prodId, supplier, category, prodName, prodUnitPrice, prodStock);
+                productList.add(prod);
+            }
+            
+            db.disconnectDB();
+            
+        } catch (SQLException e) {
+            System.err.println("Error trying to find product by criteria: " + e.getMessage());
+            db.disconnectDB();
+        }
+        
+        return productList;
+    }
     
     
     

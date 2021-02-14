@@ -16,6 +16,6 @@ public interface IDaoCategory {
     
     public Category findById(long id);
     
-    
+    List<Category> searchByCriteria(String param);
     
 }

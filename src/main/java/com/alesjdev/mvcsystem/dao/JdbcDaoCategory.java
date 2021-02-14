@@ -163,5 +163,36 @@ public class JdbcDaoCategory implements IDaoCategory {
         
         return message;
     }
+
+    @Override
+    public List<Category> searchByCriteria(String param) {
+        List<Category> categoryList = new ArrayList<>();
+        
+        DataBasePG db = new DataBasePG();
+        Connection conn = db.getConnection();
+        
+        try {
+            String sql = "SELECT * FROM categories WHERE category_name ILIKE ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, "%"+param+"%");
+            ResultSet rs = ps.executeQuery();
+            
+            Category cat;
+            while(rs.next()){
+                long catId = rs.getLong("category_id");
+                String catName = rs.getString("category_name");
+                cat = new Category(catId, catName);
+                categoryList.add(cat);
+            }
+            
+            db.disconnectDB();
+            
+        } catch (SQLException e) {
+            System.err.println("Error trying to find category by criteria: " + e.getMessage());
+            db.disconnectDB();
+        }
+        
+        return categoryList;
+    }
     
 }

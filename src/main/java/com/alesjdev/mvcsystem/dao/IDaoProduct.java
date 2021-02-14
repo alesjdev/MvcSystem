@@ -18,4 +18,6 @@ public interface IDaoProduct {
     
     public List<Product> getProductByCategory(Category cat);
     
+    List<Product> searchByCriteria(String param);
+    
 }
