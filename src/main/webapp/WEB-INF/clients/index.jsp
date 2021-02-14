@@ -90,8 +90,13 @@
                                             <%= cli.getClientPhoneNumber() %>
                                         </td>
                                       
-                                        <!-- Edit & Delete buttons -->
+                                        <!-- Check Orders, Edit & Delete buttons -->
                                         <td class="text-right">
+                                            
+                                            <a href="OrderController?action=checkOrders&cliId=<%= cli.getClientId() %>"
+                                               class="btn btn-primary">
+                                                <span class="glyphicon glyphicon-search"></span>
+                                            </a>
                                             
                                             <a href="ClientController?action=update&cliId=<%= cli.getClientId() %>"
                                                class="btn btn-warning">

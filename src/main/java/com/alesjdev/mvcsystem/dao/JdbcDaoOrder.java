@@ -218,5 +218,41 @@ public class JdbcDaoOrder implements IDaoOrder {
         
         return detailList;
     }
+
+    @Override
+    public List<Order> getOrdersByClientId(long clientId) {
+        List<Order> clientOrders = new ArrayList<>();
+        
+        DataBasePG db = new DataBasePG();
+        Connection conn = db.getConnection();
+        
+        try {
+            String sql = "SELECT * FROM orders WHERE client_id = ?";
+            
+            PreparedStatement ps = conn.prepareStatement(sql);           
+            ps.setLong(1, clientId);
+            ResultSet rs = ps.executeQuery();
+            
+            Order order;
+            while(rs.next()){
+                long orderId = rs.getLong("order_id");
+                Employee employee = new JdbcDaoEmployee().findById(rs.getLong("employee_id"));
+                Client client = new JdbcDaoClient().findById(clientId);
+                Date date = rs.getDate("order_date");
+                int discount = rs.getInt("order_discount");
+                double amount = rs.getBigDecimal("order_amount").doubleValue();
+                
+                order = new Order(orderId, employee, client, date, discount, amount);
+                clientOrders.add(order);
+            }
+            
+            db.disconnectDB();
+        } catch (SQLException e) {
+            System.err.println("Error finding client orders: " + e.getMessage());
+            db.disconnectDB();
+        }
+        
+        return clientOrders;
+    }
     
 }

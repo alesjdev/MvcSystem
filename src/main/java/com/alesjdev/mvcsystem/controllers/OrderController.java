@@ -35,6 +35,14 @@ public class OrderController extends HttpServlet {
                 request.setAttribute("order", order);
                 request.getRequestDispatcher("/WEB-INF/orders/detailedTransaction.jsp")
                         .forward(request, response);             
+            } else if (action.equals("checkOrders")){
+                long clientId = Long.parseLong(request.getParameter("cliId"));
+                String clientName = new JdbcDaoClient().findById(clientId).getClientCompanyName();
+                List <Order> clientOrders = new JdbcDaoOrder().getOrdersByClientId(clientId);
+                request.setAttribute("clientOrders", clientOrders);
+                request.setAttribute("clientName", clientName);
+                request.getRequestDispatcher("/WEB-INF/orders/clientOrders.jsp")
+                        .forward(request, response); 
             }
         } else {
             // Send to the order list page

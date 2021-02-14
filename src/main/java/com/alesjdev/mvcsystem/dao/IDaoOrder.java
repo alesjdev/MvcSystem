@@ -15,4 +15,6 @@ public interface IDaoOrder {
     
     public List<OrderDetail> getDetails (Order order);
     
+    public List<Order> getOrdersByClientId(long clientId);
+    
 }
