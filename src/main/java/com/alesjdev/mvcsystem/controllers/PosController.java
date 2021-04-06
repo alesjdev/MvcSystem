@@ -90,6 +90,21 @@ public class PosController extends HttpServlet {
         // Obtain order from the session
         Order order = (Order) request.getSession().getAttribute("order");
         
+        // Remove products sold from the database       
+        JdbcDaoProduct productDAO = new JdbcDaoProduct();
+        
+        List <OrderDetail> detailList = order.getDetails();
+        for (OrderDetail detail : detailList){
+            Product product = detail.getProduct();
+            int quantitySold = detail.getQuantity();
+            int updatedStock = product.getProductStock() - quantitySold;
+            
+            productDAO.update(
+                new Product(product.getProductId(), product.getSupplier(),
+                        product.getCategory(), product.getProductName(),
+                        product.getProductUnitPrice(), updatedStock));
+        }
+        
         // Add the client and employee to the order
         order.setClient(client);
         order.setEmployee(employee);
