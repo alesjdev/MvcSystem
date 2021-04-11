@@ -1,5 +1,5 @@
 # MVC System (In progress)
-This is a stock/inventory management system with an integrated POS. It uses Java Servlets/Filters backed up by a PostgreSQL database.
+This is a stock/inventory management system with an integrated Point of Sale (POS). It uses Java Servlets/Filters backed up by a PostgreSQL database.
 
 It allows you to view/edit/delete suppliers, product stock and categories, clients, employees.
 
