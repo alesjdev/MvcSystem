@@ -16,10 +16,11 @@ public class JdbcDaoUser implements IDaoUser {
         DataBasePG db = new DataBasePG();
         Connection conn = db.getConnection();
         try {
-            String sql = "INSERT INTO users (username, password) VALUES (?,?)";
+            String sql = "INSERT INTO users (username, password, is_admin) VALUES (?,?,?)";
             PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
+            ps.setBoolean(3, user.getIsAdmin());
             ps.executeUpdate();
             
             int generatedId;
@@ -28,7 +29,7 @@ public class JdbcDaoUser implements IDaoUser {
             
             if(generatedKeys.next()){
                 generatedId = generatedKeys.getInt(1);
-                user.setId(generatedId);
+                user.setUserId(generatedId);
             }
             
             db.disconnectDB();
@@ -62,12 +63,12 @@ public class JdbcDaoUser implements IDaoUser {
             ResultSet rs = ps.executeQuery();
             
             while(rs.next()){
-                long id_db = rs.getLong("id");
+                long id_db = rs.getLong("user_id");
                 String user_db = rs.getString("username");
                 String pass_db = rs.getString("password");
-                
-                user = new User(user_db, pass_db);
-                user.setId(id_db);
+                boolean admin_db = rs.getBoolean("is_admin");
+                user = new User(user_db, pass_db, admin_db);
+                user.setUserId(id_db);
             }
             
             db.disconnectDB();
@@ -85,4 +86,29 @@ public class JdbcDaoUser implements IDaoUser {
         return user;
     }
     
+    @Override
+    public String deleteUser (User user) {
+        String message;
+        DataBasePG database = new DataBasePG();
+        
+        try {           
+            
+            Connection conn = database.getConnection();
+            
+            String sql = "DELETE FROM users WHERE user_id= ? ";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setLong(1, user.getUserId());            
+            ps.executeUpdate();
+            
+            message = "User successfully removed from the database.";
+            
+            database.disconnectDB();
+            
+        } catch (SQLException ex) {
+            message = "There was a problem removing the user from the database: " + ex.getMessage();
+            database.disconnectDB();
+        }
+        
+        return message;
+    }
 }

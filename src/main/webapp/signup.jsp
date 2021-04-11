@@ -22,22 +22,23 @@
                         <div class="login-wrapper">
                             <div class="box">
                                 <div class="content-wrap">
-                                    <h6>Sign In</h6>
+                                    <h6>Sign Up</h6>
                                     <form action="UserController" method="POST">
-                                        <input type="hidden" name="action" value="validateUser">
+                                        <input type="hidden" name="action" value="createUser">
                                         <input class="form-control" type="text" name="username" placeholder="E-mail address">
                                         <input class="form-control" type="password" name="password" placeholder="Password">
+                                        <input class="form-control" type="password" name="password2" placeholder="Confirm password">
+                                        <input class="form-control" type="text" name="code" placeholder="Validation Code">
                                         <div class="action">
-                                            <input type="submit" value="Login" class="btn btn-primary signup">
+                                            <input type="submit" value="Create account" class="btn btn-primary signup">
                                         </div>
                                     </form>
                                 </div>
                             </div>
 
                             <div class="already">
-                                Don't have an account yet?<br>
-                                <u>You must contact a manager for a sign-up code to be able to create an account.</u><br>
-                                If you have one, you can <a href="signup.jsp" style="color:greenyellow;">Sign Up</a><br>                            
+                                <h4><u>You must contact a manager for a sign-up code to be able to create an account.</u></h4>
+                                Already have an account? <a href="index.jsp" style="color:greenyellow;">Sign in</a><br>
                             </div>
                         </div>
                     </div>

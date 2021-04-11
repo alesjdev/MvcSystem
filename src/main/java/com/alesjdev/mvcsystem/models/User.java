@@ -6,17 +6,18 @@ import java.util.regex.Pattern;
 
 public class User {
     
-    private long id;
+    private long userId;
     private String username;
     private String password;
-
+    private boolean isAdmin;
     
     public User() {
     }
 
-    public User(String username, String password) {
+    public User(String username, String password, boolean isAdmin) {
         this.username = username;
         this.password = password;
+        this.isAdmin = isAdmin;
     }
 
     
@@ -28,12 +29,12 @@ public class User {
         this.password = password;
     }
 
-    public long getId() {
-        return id;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -44,6 +45,13 @@ public class User {
         this.username = username;
     }
 
+    public boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
     
     @Override
     public String toString() {

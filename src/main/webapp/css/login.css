@@ -1,0 +1,22 @@
+html, body{
+    height: 100%;
+    width: 100%;
+}
+
+.already {
+    color:white !important;
+}
+
+p {
+    color:white;
+}
+
+.login-bg {
+    background-image: url(../images/login-backgr.jpg);
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+}
