@@ -16,13 +16,20 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "UserController", urlPatterns = {"/UserController"})
 public class UserController extends HttpServlet {
 
-    /*
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        if(request.getParameter("action") != null){
+            String action = request.getParameter("action");
+            switch(action){
+                case "closeSession":
+                    closeSession(request, response);
+                    break;
+            }
+        }
     }
-    */
+    
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -35,7 +42,7 @@ public class UserController extends HttpServlet {
                     break;
                 case "validateUser":
                     validateUser(request, response);
-                    break;                  
+                    break;
             }
         }
     }
@@ -104,4 +111,8 @@ public class UserController extends HttpServlet {
         
     }
 
+    private void closeSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getSession().removeAttribute("user");
+        response.sendRedirect(request.getContextPath()+"/signin.jsp");
+    }
 }

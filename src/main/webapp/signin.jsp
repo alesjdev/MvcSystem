@@ -13,11 +13,7 @@
         <link href="<%= request.getContextPath()%>/css/login.css" rel="stylesheet">
         
     </head>
-    <% 
-        if (request.getSession().getAttribute("user") != null)  {
-            request.getSession().removeAttribute("user");
-        }
-    %>
+
     <body class="login-bg">
         <div class="container-fluid">
             <div class="page-content container">
