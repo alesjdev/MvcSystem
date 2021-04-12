@@ -25,7 +25,7 @@
                                     <h6>Sign In</h6>
                                     <form action="UserController" method="POST">
                                         <input type="hidden" name="action" value="validateUser">
-                                        <input class="form-control" type="text" name="username" placeholder="E-mail address">
+                                        <input class="form-control" type="email" name="username" placeholder="E-mail address">
                                         <input class="form-control" type="password" name="password" placeholder="Password">
                                         <div class="action">
                                             <input type="submit" value="Login" class="btn btn-primary signup">

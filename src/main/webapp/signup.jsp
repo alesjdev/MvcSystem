@@ -25,7 +25,7 @@
                                     <h6>Sign Up</h6>
                                     <form action="UserController" method="POST">
                                         <input type="hidden" name="action" value="createUser">
-                                        <input class="form-control" type="text" name="username" placeholder="E-mail address">
+                                        <input class="form-control" type="email" name="username" placeholder="E-mail address">
                                         <input class="form-control" type="password" name="password" placeholder="Password">
                                         <input class="form-control" type="password" name="password2" placeholder="Confirm password">
                                         <input class="form-control" type="number" name="validationCode" placeholder="Validation Code">
