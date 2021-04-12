@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.codec.digest.DigestUtils;
 
 
 @WebServlet(name = "UserController", urlPatterns = {"/UserController"})
@@ -54,10 +55,11 @@ public class UserController extends HttpServlet {
         int valCode = Integer.parseInt(request.getParameter("validationCode"));
         
         if(password.equals(password2)){
+            String encryptedPassword = encrypt(password);
             IDaoUser userDAO = new JdbcDaoUser();
             User user = new User();
             user.setUsername(username);
-            user.setPassword(password);
+            user.setPassword(encryptedPassword);
             
             boolean validEmail = user.validateEmail();
             
@@ -89,10 +91,11 @@ public class UserController extends HttpServlet {
     private void validateUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String encryptedPassword = encrypt(password);
         
         User temp = new User();
         temp.setUsername(username);
-        temp.setPassword(password);
+        temp.setPassword(encryptedPassword);
         
         boolean validEmail = temp.validateEmail();
         
@@ -101,7 +104,7 @@ public class UserController extends HttpServlet {
         }
         
         IDaoUser userDAO = new JdbcDaoUser();
-        User sessionUser = userDAO.validateUser(username, password);
+        User sessionUser = userDAO.validateUser(username, encryptedPassword);
         if (sessionUser != null){
             request.getSession().setAttribute("user", sessionUser);
             response.sendRedirect(request.getContextPath()+"/index.jsp");
@@ -114,5 +117,9 @@ public class UserController extends HttpServlet {
     private void closeSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getSession().removeAttribute("user");
         response.sendRedirect(request.getContextPath()+"/signin.jsp");
+    }
+    
+    private String encrypt(String password){
+        return DigestUtils.md5Hex(password);
     }
 }
