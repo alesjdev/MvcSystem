@@ -1,11 +1,12 @@
 package com.alesjdev.mvcsystem.dao;
 
+import com.alesjdev.mvcsystem.exceptions.RegisterErrorException;
 import com.alesjdev.mvcsystem.models.User;
 
 
 public interface IDaoUser {
     
-    public User createUser(User user);
+    public User createUser(User user) throws RegisterErrorException;
     
     public User validateUser(String username, String password);
     

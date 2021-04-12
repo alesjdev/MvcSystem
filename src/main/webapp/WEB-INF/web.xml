@@ -3,6 +3,7 @@
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
    version="4.0">
+    
     <session-config>
         <session-timeout>
             30
@@ -17,4 +18,30 @@
         <param-name>propfile</param-name>
         <param-value>/props.properties</param-value>
     </context-param>
+    
+    <error-page>
+        <exception-type>
+            com.alesjdev.mvcsystem.exceptions.LoginErrorException
+        </exception-type>
+        <location>/WEB-INF/error-pages/loginError.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>
+            com.alesjdev.mvcsystem.exceptions.RegisterErrorException
+        </exception-type>
+        <location>/WEB-INF/error-pages/registerError.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>
+            com.alesjdev.mvcsystem.exceptions.NotLoggedException
+        </exception-type>
+        <location>/WEB-INF/error-pages/loginError.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>
+            com.alesjdev.mvcsystem.exceptions.NotAllowedException
+        </exception-type>
+        <location>/WEB-INF/error-pages/notAllowedError.jsp</location>
+    </error-page>
+    
 </web-app>

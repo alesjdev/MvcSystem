@@ -1,6 +1,7 @@
 package com.alesjdev.mvcsystem.dao;
 
 import com.alesjdev.mvcsystem.dbconnection.DataBasePG;
+import com.alesjdev.mvcsystem.exceptions.RegisterErrorException;
 import com.alesjdev.mvcsystem.models.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +13,7 @@ import org.postgresql.util.PSQLException;
 public class JdbcDaoUser implements IDaoUser {
 
     @Override
-    public User createUser(User user) {
+    public User createUser(User user) throws RegisterErrorException {
         DataBasePG db = new DataBasePG();
         Connection conn = db.getConnection();
         try {
@@ -34,8 +35,11 @@ public class JdbcDaoUser implements IDaoUser {
             
             db.disconnectDB();
             
-        } catch (PSQLException e) {
-            e.printStackTrace();
+        } catch (PSQLException psql_ex) {
+            // Throw register exception if PostgreSQL error 23505 "Unique constraint violation"
+            if(psql_ex.getSQLState().equals("23505")) {
+                throw new RegisterErrorException("This e-mail adress already has an account registered.");
+            }
             
         } catch (SQLException ex) {
             ex.printStackTrace();

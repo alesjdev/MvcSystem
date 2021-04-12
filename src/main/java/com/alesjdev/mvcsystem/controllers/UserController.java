@@ -2,6 +2,8 @@ package com.alesjdev.mvcsystem.controllers;
 
 import com.alesjdev.mvcsystem.dao.IDaoUser;
 import com.alesjdev.mvcsystem.dao.JdbcDaoUser;
+import com.alesjdev.mvcsystem.exceptions.LoginErrorException;
+import com.alesjdev.mvcsystem.exceptions.RegisterErrorException;
 import com.alesjdev.mvcsystem.models.User;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -48,46 +50,56 @@ public class UserController extends HttpServlet {
             IDaoUser userDAO = new JdbcDaoUser();
             User user = new User();
             user.setUsername(username);
-            user.setPassword(password);         
+            user.setPassword(password);
+            
+            boolean validEmail = user.validateEmail();
+            
+            if(!validEmail){
+                throw new ServletException(new RegisterErrorException("Please use a valid e-mail adress."));
+            }  
             User sessionUser=null;
             
-            //Check if user is manager or employee rank
+            //Check validation code to register and if user is manager or employee rank
             int accountType = userDAO.verifyCode(valCode);
-            if(accountType == -1){
-                request.setAttribute("errorMessage", "The provided validation code is not valid.");
-                request.getRequestDispatcher("errorPage.jsp").forward(request, response);         
+            if(accountType == -1){        
+                throw new ServletException(new RegisterErrorException("The provided code is not valid. "
+                        + "Please contact your manager for a valid code."));       
             } else {
                 user.setAccountType(accountType);
-                sessionUser = userDAO.createUser(user);
+                try {
+                    sessionUser = userDAO.createUser(user);
+                    request.getSession().setAttribute("user", sessionUser);
+                    response.sendRedirect(request.getContextPath()+"/index.jsp");
+                } catch (RegisterErrorException ex) {
+                    throw new ServletException(ex);
+                }
             }
-            
-            
-            
-            
-            if (sessionUser != null){
-                request.getSession().setAttribute("user", sessionUser);
-                response.sendRedirect(request.getContextPath()+"/index.jsp");
-            } else {
-                request.setAttribute("errorMessage", "Couldn't create user in the database.");
-                request.getRequestDispatcher("errorPage.jsp").forward(request, response);
-            }
-        } else {
-            request.setAttribute("errorMessage", "Passwords doesn't match.");
-            request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+        } else {       
+            throw new ServletException(new RegisterErrorException("Passwords don't match"));
         }
     }
 
     private void validateUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        
+        User temp = new User();
+        temp.setUsername(username);
+        temp.setPassword(password);
+        
+        boolean validEmail = temp.validateEmail();
+        
+        if(!validEmail){
+            throw new ServletException(new LoginErrorException("Please use a valid e-mail adress."));
+        }
+        
         IDaoUser userDAO = new JdbcDaoUser();
         User sessionUser = userDAO.validateUser(username, password);
         if (sessionUser != null){
             request.getSession().setAttribute("user", sessionUser);
             response.sendRedirect(request.getContextPath()+"/index.jsp");
         } else {
-            request.setAttribute("errorMessage", "User isn't registered in the database or password doesn't match.");
-            request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+            throw new ServletException(new LoginErrorException("User isn't registered in the database or password doesn't match.")); 
         }
         
     }
