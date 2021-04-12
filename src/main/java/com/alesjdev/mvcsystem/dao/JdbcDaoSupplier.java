@@ -43,8 +43,12 @@ public class JdbcDaoSupplier implements IDaoSupplier {
             database.disconnectDB();
         } catch (SQLException ex) { 
             System.out.println("Error in listAll (Suppliers): " + ex.getMessage());
-            database.disconnectDB();
-        } 
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
+        }
         
         return supplierList;
     }
@@ -75,7 +79,11 @@ public class JdbcDaoSupplier implements IDaoSupplier {
         } catch (SQLException ex) {
             ex.printStackTrace();
             message = "There was a problem adding the new supplier: " + ex.getMessage();
-            database.disconnectDB();
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
         }
         
         return message;
@@ -107,7 +115,11 @@ public class JdbcDaoSupplier implements IDaoSupplier {
         } catch (SQLException ex) {
             ex.printStackTrace();
             message = "There was a problem updating the supplier data: " + ex.getMessage();
-            database.disconnectDB();
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
         }
         
         return message;
@@ -134,7 +146,11 @@ public class JdbcDaoSupplier implements IDaoSupplier {
         } catch (SQLException ex) {
             ex.printStackTrace();
             message = "There was a problem deleting the supplier from the database: " + ex.getMessage();
-            database.disconnectDB();
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
         }
         
         return message;
@@ -163,8 +179,12 @@ public class JdbcDaoSupplier implements IDaoSupplier {
             database.disconnectDB();
         } catch (SQLException ex) { 
             System.out.println("Error in findById (Supplier): " + ex);
-            database.disconnectDB();
-        } 
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
+        }
         
         return supplier;
     }

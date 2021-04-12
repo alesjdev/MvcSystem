@@ -48,8 +48,12 @@ public class JdbcDaoProduct implements IDaoProduct {
             database.disconnectDB();
         } catch (SQLException ex) { 
             System.out.println("Error in listAll (Products): " + ex.getMessage());
-            database.disconnectDB();
-        } 
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
+        }
         
         return productList;
     }
@@ -81,7 +85,11 @@ public class JdbcDaoProduct implements IDaoProduct {
             
         } catch (SQLException ex) {
             message = "There was a problem adding the new product: " + ex.getMessage();
-            database.disconnectDB();
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
         }
         
         return message;
@@ -114,7 +122,11 @@ public class JdbcDaoProduct implements IDaoProduct {
             
         } catch (SQLException ex) {
             message = "There was a problem updating the product: " + ex.getMessage();
-            database.disconnectDB();
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
         }
         
         return message;
@@ -140,7 +152,11 @@ public class JdbcDaoProduct implements IDaoProduct {
             
         } catch (SQLException ex) {
             message = "There was a problem deleting the product from the database: " + ex.getMessage();
-            database.disconnectDB();
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
         }
         
         return message;
@@ -171,8 +187,12 @@ public class JdbcDaoProduct implements IDaoProduct {
             database.disconnectDB();
         } catch (SQLException ex) { 
             System.out.println("Error in findById (Product): " + ex);
-            database.disconnectDB();
-        } 
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
+        }
         
         return product;
     }
@@ -180,10 +200,10 @@ public class JdbcDaoProduct implements IDaoProduct {
     @Override
     public List<Product> getProductByCategory(Category cat) {
         List<Product> productList = new ArrayList<>();
-        DataBasePG db = new DataBasePG();
+        DataBasePG database = new DataBasePG();
                
         try {
-            Connection conn = db.getConnection();
+            Connection conn = database.getConnection();
             // Prepare statement with the results given when searching by category 
             String sql = "SELECT * FROM products WHERE category_id = ?";           
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -204,10 +224,14 @@ public class JdbcDaoProduct implements IDaoProduct {
                 productList.add(product);
             }
             
-            db.disconnectDB();
+            database.disconnectDB();
         } catch (SQLException ex) {
             System.out.println("Error in obtain products by category: " + ex.getMessage());
-            db.disconnectDB();
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
         }
         
         return productList;
@@ -217,8 +241,8 @@ public class JdbcDaoProduct implements IDaoProduct {
     public List<Product> searchByCriteria(String param) {
         List<Product> productList = new ArrayList<>();
         
-        DataBasePG db = new DataBasePG();
-        Connection conn = db.getConnection();
+        DataBasePG database = new DataBasePG();
+        Connection conn = database.getConnection();
         
         try {
             String sql = "SELECT * FROM products WHERE product_name ILIKE ?";
@@ -239,11 +263,15 @@ public class JdbcDaoProduct implements IDaoProduct {
                 productList.add(prod);
             }
             
-            db.disconnectDB();
+            database.disconnectDB();
             
         } catch (SQLException e) {
             System.err.println("Error trying to find product by criteria: " + e.getMessage());
-            db.disconnectDB();
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
         }
         
         return productList;

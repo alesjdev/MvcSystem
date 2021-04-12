@@ -53,8 +53,12 @@ public class JdbcDaoEmployee implements IDaoEmployee {
             database.disconnectDB();
         } catch (SQLException ex) { 
             System.out.println("Error in listAll (Employees): " + ex.getMessage());
-            database.disconnectDB();
-        } 
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
+        }
         
         return employeeList;
     }
@@ -87,7 +91,11 @@ public class JdbcDaoEmployee implements IDaoEmployee {
         } catch (SQLException ex) {
             ex.printStackTrace();
             message = "There was a problem adding the new employee: " + ex.getMessage();
-            database.disconnectDB();
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
         }
         
         return message;
@@ -123,7 +131,11 @@ public class JdbcDaoEmployee implements IDaoEmployee {
         } catch (SQLException ex) {
             ex.printStackTrace();
             message = "There was a problem updating the employee data: " + ex.getMessage();
-            database.disconnectDB();
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
         }
         
         return message;
@@ -150,7 +162,11 @@ public class JdbcDaoEmployee implements IDaoEmployee {
         } catch (SQLException ex) {
             ex.printStackTrace();
             message = "There was a problem deleting the employee from the database: " + ex.getMessage();
-            database.disconnectDB();
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
         }
         
         return message;
@@ -181,8 +197,12 @@ public class JdbcDaoEmployee implements IDaoEmployee {
             database.disconnectDB();
         } catch (SQLException ex) { 
             System.out.println("Error in findById (Employee): " + ex);
-            database.disconnectDB();
-        } 
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
+        }
         
         return employee;
     }

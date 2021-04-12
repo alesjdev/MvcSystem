@@ -44,8 +44,12 @@ public class JdbcDaoCategory implements IDaoCategory {
             database.disconnectDB();
         } catch (SQLException ex) { 
             System.out.println("Error in listAll (Categories): " + ex);
-            database.disconnectDB();
-        } 
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
+        }
         
         return categoryList;
     }
@@ -75,7 +79,11 @@ public class JdbcDaoCategory implements IDaoCategory {
         } catch (SQLException ex) {
             ex.printStackTrace();
             message = "There was a problem adding the category: " + ex.getMessage();
-            database.disconnectDB();
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
         }
         
         return message;
@@ -102,8 +110,12 @@ public class JdbcDaoCategory implements IDaoCategory {
             database.disconnectDB();
         } catch (SQLException ex) { 
             System.out.println("Error in findById (Categories): " + ex);
-            database.disconnectDB();
-        } 
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
+        }
         
         return category;
     }
@@ -131,7 +143,11 @@ public class JdbcDaoCategory implements IDaoCategory {
         } catch (SQLException ex) {
             ex.printStackTrace();
             message = "There was a problem modifying the category: " + ex.getMessage();
-            database.disconnectDB();
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
         }
         
         return message;
@@ -158,7 +174,11 @@ public class JdbcDaoCategory implements IDaoCategory {
         } catch (SQLException ex) {
             ex.printStackTrace();
             message = "There was a problem deleting the category: " + ex.getMessage();
-            database.disconnectDB();
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
         }
         
         return message;
@@ -168,8 +188,8 @@ public class JdbcDaoCategory implements IDaoCategory {
     public List<Category> searchByCriteria(String param) {
         List<Category> categoryList = new ArrayList<>();
         
-        DataBasePG db = new DataBasePG();
-        Connection conn = db.getConnection();
+        DataBasePG database = new DataBasePG();
+        Connection conn = database.getConnection();
         
         try {
             String sql = "SELECT * FROM categories WHERE category_name ILIKE ?";
@@ -185,11 +205,15 @@ public class JdbcDaoCategory implements IDaoCategory {
                 categoryList.add(cat);
             }
             
-            db.disconnectDB();
+            database.disconnectDB();
             
         } catch (SQLException e) {
             System.err.println("Error trying to find category by criteria: " + e.getMessage());
-            db.disconnectDB();
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
         }
         
         return categoryList;

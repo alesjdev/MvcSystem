@@ -42,8 +42,12 @@ public class JdbcDaoClient implements IDaoClient {
             database.disconnectDB();
         } catch (SQLException ex) { 
             System.out.println("Error in listAll (Clients): " + ex.getMessage());
-            database.disconnectDB();
-        } 
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
+        }
         
         return clientList;
     }
@@ -75,7 +79,11 @@ public class JdbcDaoClient implements IDaoClient {
             
         } catch (SQLException ex) {
             message = "There was a problem adding the new client: " + ex.getMessage();
-            database.disconnectDB();
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
         }
         
         return message;
@@ -108,7 +116,11 @@ public class JdbcDaoClient implements IDaoClient {
             
         } catch (SQLException ex) {
             message = "There was a problem updating the client info: " + ex.getMessage();
-            database.disconnectDB();
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
         }
         
         return message;
@@ -134,7 +146,11 @@ public class JdbcDaoClient implements IDaoClient {
             
         } catch (SQLException ex) {
             message = "There was a problem deleting the client from the database: " + ex.getMessage();
-            database.disconnectDB();
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
         }
         
         return message;
@@ -165,8 +181,12 @@ public class JdbcDaoClient implements IDaoClient {
             database.disconnectDB();
         } catch (SQLException ex) { 
             System.out.println("Error in findById (Client): " + ex);
-            database.disconnectDB();
-        } 
+            
+        } finally {
+            if (database.getConnection() != null){
+                database.disconnectDB();
+            }
+        }
         
         return client;
     }

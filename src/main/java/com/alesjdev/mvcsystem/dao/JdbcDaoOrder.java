@@ -50,7 +50,11 @@ public class JdbcDaoOrder implements IDaoOrder {
             
         } catch (SQLException e) {
             System.err.println("Error fetching order list from database: " + e.getMessage());
-            db.disconnectDB();
+            
+        } finally {
+            if (db.getConnection() != null){
+                db.disconnectDB();
+            }
         }
         
         return orderList;
@@ -142,7 +146,7 @@ public class JdbcDaoOrder implements IDaoOrder {
             }
             e.printStackTrace();
             System.err.println("Couldn't register product: " + e.getMessage());
-            db.disconnectDB();
+            
         } finally {
             if(conn!=null){
                 db.disconnectDB();
@@ -181,7 +185,11 @@ public class JdbcDaoOrder implements IDaoOrder {
             db.disconnectDB();
         } catch (SQLException e) {
             System.err.println("Error finding Order by ID: " + e.getMessage());
-            db.disconnectDB();
+            
+        } finally {
+            if (db.getConnection() != null){
+                db.disconnectDB();
+            }
         }
         
         return order;
@@ -216,7 +224,11 @@ public class JdbcDaoOrder implements IDaoOrder {
             db.disconnectDB();
         } catch (SQLException e) {
             System.err.println("Error retrieving order details: " + e.getMessage());
-            db.disconnectDB();         
+                   
+        } finally {
+            if (db.getConnection() != null){
+                db.disconnectDB();
+            }
         }
         
         return detailList;
@@ -252,7 +264,11 @@ public class JdbcDaoOrder implements IDaoOrder {
             db.disconnectDB();
         } catch (SQLException e) {
             System.err.println("Error finding client orders: " + e.getMessage());
-            db.disconnectDB();
+            
+        } finally {
+            if (db.getConnection() != null){
+                db.disconnectDB();
+            }
         }
         
         return clientOrders;
