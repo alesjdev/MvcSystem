@@ -16,11 +16,11 @@ public class JdbcDaoUser implements IDaoUser {
         DataBasePG db = new DataBasePG();
         Connection conn = db.getConnection();
         try {
-            String sql = "INSERT INTO users (username, password, is_admin) VALUES (?,?,?)";
+            String sql = "INSERT INTO users (username, password, account_type) VALUES (?,?,?)";
             PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
-            ps.setBoolean(3, user.getIsAdmin());
+            ps.setInt(3, user.getAccountType());
             ps.executeUpdate();
             
             int generatedId;
@@ -66,8 +66,8 @@ public class JdbcDaoUser implements IDaoUser {
                 long id_db = rs.getLong("user_id");
                 String user_db = rs.getString("username");
                 String pass_db = rs.getString("password");
-                boolean admin_db = rs.getBoolean("is_admin");
-                user = new User(user_db, pass_db, admin_db);
+                int type_db = rs.getInt("account_type");
+                user = new User(user_db, pass_db, type_db);
                 user.setUserId(id_db);
             }
             
@@ -110,5 +110,45 @@ public class JdbcDaoUser implements IDaoUser {
         }
         
         return message;
+    }
+
+    @Override
+    public int verifyCode(int code) {
+        int accountType=-1;
+        DataBasePG db = new DataBasePG();
+        
+        try {
+            Connection conn = db.getConnection();
+            String sql = "SELECT user_type FROM user_codes WHERE validation_code = ? LIMIT 1";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, code);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){       
+                String userType = rs.getString("user_type");
+                switch(userType){
+                    case "manager_account":
+                        accountType=0;
+                        break;
+                    case "employee_account":
+                        accountType=1;
+                        break;
+                    default:
+                        accountType=-1;
+                }
+            }
+            
+            db.disconnectDB();
+                      
+        } catch (SQLException e) {
+            System.err.println("Error retrieving user from database: " + e.getMessage());
+        } finally {
+            if (db.getConnection() != null){
+                db.disconnectDB();
+            }
+        }
+        
+        return accountType;
     }
 }

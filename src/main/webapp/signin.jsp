@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>MVC System - Register account</title>
+        <title>MVC System - Login</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Bootstrap -->
         <link href="<%= request.getContextPath()%>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -26,23 +26,22 @@
                         <div class="login-wrapper">
                             <div class="box">
                                 <div class="content-wrap">
-                                    <h6>Sign Up</h6>
+                                    <h6>Sign In</h6>
                                     <form action="UserController" method="POST">
-                                        <input type="hidden" name="action" value="createUser">
+                                        <input type="hidden" name="action" value="validateUser">
                                         <input class="form-control" type="text" name="username" placeholder="E-mail address">
                                         <input class="form-control" type="password" name="password" placeholder="Password">
-                                        <input class="form-control" type="password" name="password2" placeholder="Confirm password">
-                                        <input class="form-control" type="number" name="validationCode" placeholder="Validation Code">
                                         <div class="action">
-                                            <input type="submit" value="Create account" class="btn btn-primary signup">
+                                            <input type="submit" value="Login" class="btn btn-primary signup">
                                         </div>
                                     </form>
                                 </div>
                             </div>
 
                             <div class="already">
-                                <h4><u>You must contact a manager for a sign-up code to be able to create an account.</u></h4>
-                                Already have an account? <a href="<%=request.getContextPath()%>/signin.jsp" style="color:greenyellow;">Sign in</a><br>
+                                Don't have an account yet?<br>
+                                <u>You must contact a manager for a sign-up code to be able to create an account.</u><br>
+                                If you have one, you can <a href="<%=request.getContextPath()%>/signup.jsp" style="color:greenyellow;">Sign Up</a><br>                            
                             </div>
                         </div>
                     </div>

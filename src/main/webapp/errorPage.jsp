@@ -35,10 +35,10 @@
         <div class="page-content">
             <div class="row">               
                 <jsp:include page="/WEB-INF/layouts/sidebar.jsp" />               
-                <div class="col-md-10">
+                <div class="col-md-10 text-center">
                     
-                    <h2 style="color:crimson;">Error:</h2>
-                    <h3> <%= message %> </h3>
+                    <h2 style="color:crimson;">Error:<br>
+                    <%= message %> </h2>
                     
                 </div>
             </div>

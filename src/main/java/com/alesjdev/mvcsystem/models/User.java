@@ -9,15 +9,15 @@ public class User {
     private long userId;
     private String username;
     private String password;
-    private boolean isAdmin;
+    private int accountType;
     
     public User() {
     }
 
-    public User(String username, String password, boolean isAdmin) {
+    public User(String username, String password, int accountType) {
         this.username = username;
         this.password = password;
-        this.isAdmin = isAdmin;
+        this.accountType = accountType;
     }
 
     
@@ -45,12 +45,12 @@ public class User {
         this.username = username;
     }
 
-    public boolean getIsAdmin() {
-        return isAdmin;
+    public int getAccountType() {
+        return accountType;
     }
 
-    public void setIsAdmin(boolean isAdmin) {
-        this.isAdmin = isAdmin;
+    public void setAccountType(int accountType) {
+        this.accountType = accountType;
     }
     
     @Override
