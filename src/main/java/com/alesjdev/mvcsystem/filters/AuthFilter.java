@@ -39,6 +39,7 @@ public class AuthFilter implements Filter {
                 url.contains("/bootstrap/") ||
                 url.contains("/css/") ||
                 url.contains("/js/") ||
+                url.contains("/images/") ||
                 url.contains("UserController") ||
                 url.startsWith("/UserController", "/MVCSystem/".length());
     }

@@ -27,6 +27,9 @@ public class UserController extends HttpServlet {
                 case "closeSession":
                     closeSession(request, response);
                     break;
+                case "manageAccount":
+                    manageAccount(request, response);
+                    break;
             }
         }
     }
@@ -43,6 +46,9 @@ public class UserController extends HttpServlet {
                     break;
                 case "validateUser":
                     validateUser(request, response);
+                    break;
+                case "deleteUser":
+                    deleteUser(request, response);
                     break;
             }
         }
@@ -77,6 +83,7 @@ public class UserController extends HttpServlet {
                 user.setAccountType(accountType);
                 try {
                     sessionUser = userDAO.createUser(user);
+                    sessionUser.setPassword(password);
                     request.getSession().setAttribute("user", sessionUser);
                     response.sendRedirect(request.getContextPath()+"/index.jsp");
                 } catch (RegisterErrorException ex) {
@@ -106,6 +113,7 @@ public class UserController extends HttpServlet {
         IDaoUser userDAO = new JdbcDaoUser();
         User sessionUser = userDAO.validateUser(username, encryptedPassword);
         if (sessionUser != null){
+            sessionUser.setPassword(password);
             request.getSession().setAttribute("user", sessionUser);
             response.sendRedirect(request.getContextPath()+"/index.jsp");
         } else {
@@ -121,5 +129,20 @@ public class UserController extends HttpServlet {
     
     private String encrypt(String password){
         return DigestUtils.md5Hex(password);
+    }
+
+    private void manageAccount(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        if(request.getSession().getAttribute("user") != null) {
+            request.getRequestDispatcher("/WEB-INF/account/accountManager.jsp")
+                    .forward(request, response);
+        }
+    }
+
+    private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        long accountId = Long.parseLong(request.getParameter("accId"));
+        IDaoUser userDAO = new JdbcDaoUser();
+        userDAO.deleteUser(accountId);
+        request.getSession().removeAttribute("user");
+        response.sendRedirect(request.getContextPath()+"/index.jsp");
     }
 }

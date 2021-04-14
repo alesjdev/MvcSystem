@@ -10,7 +10,7 @@ public interface IDaoUser {
     
     public User validateUser(String username, String password);
     
-    public String deleteUser(User user);
+    public String deleteUser(long userId);
     
     public int verifyCode(int code);
 }

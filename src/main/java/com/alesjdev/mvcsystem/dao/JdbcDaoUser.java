@@ -91,7 +91,7 @@ public class JdbcDaoUser implements IDaoUser {
     }
     
     @Override
-    public String deleteUser (User user) {
+    public String deleteUser (long userId) {
         String message;
         DataBasePG database = new DataBasePG();
         
@@ -101,7 +101,7 @@ public class JdbcDaoUser implements IDaoUser {
             
             String sql = "DELETE FROM users WHERE user_id= ? ";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setLong(1, user.getUserId());            
+            ps.setLong(1, userId);            
             ps.executeUpdate();
             
             message = "User successfully removed from the database.";

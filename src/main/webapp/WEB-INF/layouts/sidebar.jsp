@@ -58,7 +58,7 @@
                         <li><a href="<%=request.getContextPath()%>/signin.jsp">Sign in</a></li>
                         <li><a href="<%=request.getContextPath()%>/signup.jsp">Sign up</a></li>
                     <% } else { %>
-                        <li><a href="<%=request.getContextPath()%>/account.jsp">Manage account</a></li>
+                        <li><a href="UserController?action=manageAccount">Manage account</a></li>
                         <li><a href="UserController?action=closeSession">Logout</a></li>
                     <% } %>
                 </ul>
