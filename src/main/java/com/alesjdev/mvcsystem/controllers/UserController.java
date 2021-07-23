@@ -58,7 +58,13 @@ public class UserController extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String password2 = request.getParameter("password2");
-        int valCode = Integer.parseInt(request.getParameter("validationCode"));
+        int valCode = -1;
+        try{
+            valCode = Integer.parseInt(request.getParameter("validationCode"));
+        } catch (NumberFormatException ex){
+            throw new ServletException(new RegisterErrorException("The provided code is not valid. "
+                        + "Please contact your manager for a valid code."));
+        }
         
         if(password.equals(password2)){
             String encryptedPassword = encrypt(password);
